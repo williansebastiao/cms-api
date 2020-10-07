@@ -237,6 +237,7 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'ApiStatus' => App\Constants\ApiStatus::class,
+        'ApiMessages' => App\Constants\ApiMessages::class,
     ],
 
 ];

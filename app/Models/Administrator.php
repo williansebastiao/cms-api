@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Jenssegers\Mongodb\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
@@ -16,7 +18,7 @@ class Administrator extends Authenticatable implements JWTSubject {
      * @var string[]
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'avatar', 'role_id', 'active'
+        'first_name', 'last_name', 'email', 'password', 'slug', 'avatar', 'role_id', 'active'
     ];
 
     /**
@@ -38,6 +40,23 @@ class Administrator extends Authenticatable implements JWTSubject {
      */
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    /**
+     * @param $value
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\UrlGenerator|string
+     */
+    public function getAvatarAttribute($value) {
+        return !is_null($value) ? Storage::url($value) : url('assets/avatar/unknown_circle.png');
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute() {
+        $firstName = $this->attributes['first_name'];
+        $lastName = $this->attributes['last_name'];
+        return "{$firstName} {$lastName}";
     }
 
     /**

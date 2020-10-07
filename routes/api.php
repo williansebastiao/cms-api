@@ -14,6 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'administrator'], function (){
+    Route::post('authenticate', [\App\Http\Controllers\Api\AdministratorController::class, 'authenticate']);
+    //Route::post('email', 'Api\ForgotPasswordController@sendResetLinkEmail');
+    //Route::post('reset', 'Api\ResetPasswordController@reset');
+});
+
+Route::group(['middleware' => ['jwt.verify']], function (){
+    Route::group(['prefix' => 'administrator'], function (){
+        Route::get('me', [\App\Http\Controllers\Api\AdministratorController::class, 'me']);
+        Route::get('findAll', [\App\Http\Controllers\Api\AdministratorController::class, 'findAll']);
+        Route::get('findById/{id}', [\App\Http\Controllers\Api\AdministratorController::class, 'findById']);
+        Route::post('store', [\App\Http\Controllers\Api\AdministratorController::class, 'store']);
+        /*Route::put('update/{id}', 'Api\AdministratorController@update');
+        Route::put('profile', 'Api\AdministratorController@profile');
+        Route::post('avatar', 'Api\AdministratorController@avatar');
+        Route::put('password', 'Api\AdministratorController@password');
+        Route::delete('destroy/{id}', 'Api\AdministratorController@destroy');*/
+    });
 });
