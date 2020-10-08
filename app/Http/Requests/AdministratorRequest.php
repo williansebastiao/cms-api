@@ -29,7 +29,7 @@ class AdministratorRequest extends FormRequest
                 'last_name' => 'required|min:4',
                 'email' => 'email|unique:administrators,email',
                 'password' => 'required|min:8',
-                'role_id' => 'required|integer'
+                'role' => 'required'
             ];
         } else if (in_array('update', $segments)) {
             $user = auth('administrator')->user();
@@ -37,7 +37,7 @@ class AdministratorRequest extends FormRequest
                 'first_name' => 'required|min:4',
                 'last_name' => 'required|min:4',
                 'email' => 'email', Rule::unique('administrators')->ignore($user->id),
-                'role_id' => 'required|integer'
+                'role' => 'required'
             ];
         } else {
             $user = auth('administrator')->user();

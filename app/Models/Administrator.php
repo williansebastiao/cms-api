@@ -130,7 +130,7 @@ class Administrator extends Authenticatable implements JWTSubject {
             $model->update(['slug' => Str::slug($model->first_name . ' ' . $model->last_name)]);
         });
         static::deleted(function($model){
-            $model->update(['active' => 0]);
+            $model->update(['active' => false]);
         });
     }
 

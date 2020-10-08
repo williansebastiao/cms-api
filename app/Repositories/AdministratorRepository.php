@@ -94,6 +94,7 @@ class AdministratorRepository implements AdministratorContract {
                 'last_name' => $data['last_name'],
                 'email' => $data['email'],
                 'password' => $password,
+                'active' => true,
                 'role_id' => Role::where('name', $data['role'])->first()->id,
                 'pass' => $password
             ];
@@ -116,14 +117,16 @@ class AdministratorRepository implements AdministratorContract {
      * @param Int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Array $data, Int $id) {
+    public function update(Array $data, String $id) {
         try {
 
+            $slug = "{$data['first_name']} {$data['last_name']}";
             $arr = [
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
                 'email' => $data['email'],
-                'role_id' => $data['role_id'],
+                'slug' => Str::slug($slug),
+                'role_id' => Role::where('name', $data['role'])->first()->id,
             ];
 
             $save = $this->administrator->find($id)->update($arr);
@@ -221,10 +224,10 @@ class AdministratorRepository implements AdministratorContract {
     }
 
     /**
-     * @param Int $id
+     * @param String $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Int $id) {
+    public function destroy(String $id) {
         try {
             $delete = $this->administrator->find($id)->delete();
             if($delete) {

@@ -24,7 +24,7 @@ class Role extends Model {
         switch ($value) {
             case 'Root':
                 return 'Master';
-            case 'Manager':
+            case 'Administrator':
                 return 'Administrador';
             case 'User':
             default:

@@ -69,20 +69,16 @@ class AdministratorController extends Controller {
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request) {
         try {
             return $this->administrator->store($request->all());
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
         }
-    }
-
-    /**
-     * @param AdministratorRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function stores(AdministratorRequest $request) {
-
     }
 
     /**
