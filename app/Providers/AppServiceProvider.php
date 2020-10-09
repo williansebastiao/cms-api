@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\AdministratorContract;
 use App\Repositories\AdministratorRepository;
+use App\Repositories\ClientContract;
+use App\Repositories\ClientRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register() {
         $this->app->bind(AdministratorContract::class, AdministratorRepository::class);
+        $this->app->bind(ClientContract::class, ClientRepository::class);
     }
 
     /**

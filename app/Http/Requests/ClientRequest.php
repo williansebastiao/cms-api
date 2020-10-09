@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
-class AdministratorRequest extends FormRequest
+class ClientRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,19 +28,20 @@ class AdministratorRequest extends FormRequest
         $segments = $this->segments();
         if(in_array('store', $segments)) {
             return [
-                'first_name' => 'required|min:4',
-                'last_name' => 'required|min:4',
+                'name' => 'required|min:2',
                 'email' => 'email|unique:administrators,email',
-                'password' => 'required|min:8',
-                'role' => 'required'
+                'cnpj' => 'required|cnpj',
+                //'password' => 'required|min:8',
+                //'role' => 'required'
             ];
         } else if (in_array('update', $segments)) {
-            $user = auth('administrator')->user();
+            $user = auth('client')->user();
             return [
-                'first_name' => 'required|min:4',
-                'last_name' => 'required|min:4',
-                'email' => 'email', Rule::unique('administrators')->ignore($user->id),
-                'role' => 'required'
+                'name' => 'required|min:2',
+                'email' => 'email', Rule::unique('clients')->ignore($user->id),
+                //'cnpj' => 'required|cnpj',
+                //'password' => 'required|min:8',
+                //'role' => 'required'
             ];
         } else {
             $user = auth('administrator')->user();
@@ -64,8 +65,7 @@ class AdministratorRequest extends FormRequest
      */
     public function attributes(){
         return [
-            'first_name' => 'nome',
-            'last_name' => 'sobrenome',
+            'name' => 'nome',
             'email' => 'e-mail',
             'role' => 'permissão',
         ];

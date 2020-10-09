@@ -32,11 +32,12 @@ class Role extends Model {
         }
     }
 
-    /**
-     *
-     */
     public function administrator(){
         $this->hasOne(Administrator::class);
+    }
+
+    public function client(){
+        $this->hasOne(Client::class);
     }
 
 }
