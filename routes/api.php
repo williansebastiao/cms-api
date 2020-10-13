@@ -35,6 +35,8 @@ Route::group(['middleware' => ['jwt.verify']], function (){
         Route::get('me', [\App\Http\Controllers\Api\AdministratorController::class, 'me']);
         Route::get('findAll', [\App\Http\Controllers\Api\AdministratorController::class, 'findAll']);
         Route::get('findById/{id}', [\App\Http\Controllers\Api\AdministratorController::class, 'findById']);
+        Route::get('findAllClients', [\App\Http\Controllers\Api\AdministratorController::class, 'findAllClients']);
+        Route::get('findClientById/{id}', [\App\Http\Controllers\Api\AdministratorController::class, 'findClientById']);
         Route::post('store', [\App\Http\Controllers\Api\AdministratorController::class, 'store']);
         Route::put('update/{id}', [\App\Http\Controllers\Api\AdministratorController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\Api\AdministratorController::class, 'destroy']);

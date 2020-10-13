@@ -10,6 +10,8 @@ interface AdministratorContract {
     public function me();
     public function findAll();
     public function findById($id);
+    public function findAllClients();
+    public function findClientById(String $id);
     public function store(Array $data);
     public function update(Array $data, String $id);
     public function avatar(Array $data, $avatar);

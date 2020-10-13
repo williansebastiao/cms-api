@@ -28,8 +28,19 @@ class Client extends Authenticatable implements JWTSubject {
       'password'
     ];
 
+    /**
+     * @param $value
+     */
     public function setCnpjAttribute($value) {
         $this->attributes['cnpj'] = clearSpecialCharacters($value);
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function getCnpjAttribute($value) {
+        return mask('##.###.###/####-##', $value);
     }
 
     /**

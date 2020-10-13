@@ -6,6 +6,7 @@ use App\Constants\ApiMessages;
 use App\Constants\ApiStatus;
 use App\Mail\NewAdministrator;
 use App\Models\Administrator;
+use App\Models\Client;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -19,15 +20,18 @@ class AdministratorRepository implements AdministratorContract {
 
     /**
      * @var Administrator
+     * @var Client
      */
-    protected $administrator;
+    protected $administrator, $client;
 
     /**
      * AdministratorRepository constructor.
      * @param Administrator $administrator
+     * @param Client $client
      */
-    public function __construct(Administrator $administrator) {
+    public function __construct(Administrator $administrator, Client $client) {
         $this->administrator = $administrator;
+        $this->client = $client;
     }
 
     /**
@@ -78,6 +82,24 @@ class AdministratorRepository implements AdministratorContract {
      */
     public function findById($id) {
         return $this->administrator->with('role')
+            ->findOrFail($id);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function findAllClients() {
+        return $this->client->with('role')
+            ->where('active', true)
+            ->get();
+    }
+
+    /**
+     * @param String $id
+     * @return mixed
+     */
+    public function findClientById(String $id) {
+        return $this->client->with('role')
             ->findOrFail($id);
     }
 

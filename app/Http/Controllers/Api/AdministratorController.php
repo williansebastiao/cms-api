@@ -70,6 +70,29 @@ class AdministratorController extends Controller {
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function findAllClients() {
+        try {
+            return $this->administrator->findAllClients();
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function findClientById($id) {
+        try {
+            return $this->administrator->findClientById($id);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
