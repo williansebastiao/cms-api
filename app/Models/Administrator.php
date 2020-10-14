@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Notifications\AdministratorResetPasswordNotification;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword as PasswordContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -10,9 +13,9 @@ use Illuminate\Notifications\Notifiable;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Administrator extends Authenticatable implements JWTSubject {
+class Administrator extends Authenticatable implements JWTSubject, PasswordContract {
 
-    use HasFactory, SoftDeletes, Notifiable;
+    use HasFactory, SoftDeletes, Notifiable, CanResetPassword;
 
     /**
      * @var string[]
@@ -122,6 +125,13 @@ class Administrator extends Authenticatable implements JWTSubject {
      */
     private function checkIfUserHasRole($need_role) {
         return (strtolower($need_role)==strtolower($this->have_role->name)) ? true : false;
+    }
+
+    /**
+     * @param string $token
+     */
+    public function sendPasswordResetNotification($token) {
+        $this->notify(new AdministratorResetPasswordNotification($token));
     }
 
     protected static function booted() {

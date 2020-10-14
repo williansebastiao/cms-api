@@ -20,8 +20,8 @@ Route::get('/', function(){
 
 Route::group(['prefix' => 'administrator'], function (){
     Route::post('authenticate', [\App\Http\Controllers\Api\AdministratorController::class, 'authenticate']);
-    //Route::post('email', 'Api\ForgotPasswordController@sendResetLinkEmail');
-    //Route::post('reset', 'Api\ResetPasswordController@reset');
+    Route::post('email', [\App\Http\Controllers\Api\ForgotPasswordController::class, 'sendResetLinkEmail']);
+    Route::post('reset', [\App\Http\Controllers\Api\ResetPasswordController::class, 'reset']);
 });
 
 Route::group(['prefix' => 'client'], function (){
