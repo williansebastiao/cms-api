@@ -26,7 +26,6 @@ class ResetPasswordController extends Controller {
     }
 
     public function reset(Request $request) {
-
         try {
 
             $credentials = $this->validate($request, [
@@ -52,7 +51,7 @@ class ResetPasswordController extends Controller {
             }
 
         } catch (\Exception $e) {
-            return $e->getFile();
+            return response()->json(['message' => ApiMessages::allFields], ApiStatus::unprocessableEntity);
         }
 
 

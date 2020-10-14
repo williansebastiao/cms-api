@@ -19,5 +19,6 @@ class ApiMessages {
     const passwordToken = 'Token inválido';
     const passwordUserInvalid = 'Usuário inválido';
     const passwordError = 'Erro inexperado';
+    const allFields = 'Preencha todos os dados';
 
 }

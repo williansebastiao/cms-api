@@ -25,23 +25,30 @@ class ForgotPasswordController extends Controller {
     }
 
     protected function sendResetLinkEmail(Request $request) {
-        $this->validate($request, ['email' => 'required|email']);
 
-        $response = $this->broker()->sendResetLink(
-            $request->only('email')
-        );
+        try {
 
-        switch ($response) {
-            case Password::RESET_LINK_SENT:
-                return response()->json([
-                    'message' => ApiMessages::reset
-                ], ApiStatus::success);
+            $this->validate($request, ['email' => 'required|email']);
 
-            case Password::INVALID_USER:
-            default:
-                return response()->json([
-                    'message' => ApiMessages::resetError
-                ], ApiStatus::unprocessableEntity);
+            $response = $this->broker()->sendResetLink(
+                $request->only('email')
+            );
+
+            switch ($response) {
+                case Password::RESET_LINK_SENT:
+                    return response()->json([
+                        'message' => ApiMessages::reset
+                    ], ApiStatus::success);
+
+                case Password::INVALID_USER:
+                default:
+                    return response()->json([
+                        'message' => ApiMessages::resetError
+                    ], ApiStatus::unprocessableEntity);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => ApiMessages::allFields], ApiStatus::unprocessableEntity);
         }
     }
 
