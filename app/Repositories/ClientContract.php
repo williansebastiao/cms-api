@@ -11,6 +11,7 @@ interface ClientContract {
     public function findAll();
     public function findById($id);
     public function store(Array $data);
+    public function register(Array $data);
     public function update(Array $data, String $id);
     public function avatar(Array $data, $avatar);
     public function profile(Array $data);

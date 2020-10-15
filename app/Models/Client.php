@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Notifications\ClientResetPasswordNotification;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword as PasswordContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
@@ -10,15 +13,15 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Jenssegers\Mongodb\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Client extends Authenticatable implements JWTSubject {
+class Client extends Authenticatable implements JWTSubject, PasswordContract {
 
-    use HasFactory, SoftDeletes, Notifiable;
+    use HasFactory, SoftDeletes, Notifiable, CanResetPassword;
 
     /**
      * @var string[]
      */
     protected $fillable = [
-        'name', 'email', 'cnpj', 'password', 'slug', 'avatar', 'role_id', 'active'
+        'name', 'email', 'password', 'slug', 'avatar', 'role_id', 'active'
     ];
 
     /**
@@ -122,6 +125,13 @@ class Client extends Authenticatable implements JWTSubject {
      */
     private function checkIfUserHasRole($need_role) {
         return (strtolower($need_role)==strtolower($this->have_role->name)) ? true : false;
+    }
+
+    /**
+     * @param string $token
+     */
+    public function sendPasswordResetNotification($token) {
+        $this->notify(new ClientResetPasswordNotification($token));
     }
 
     protected static function booted() {

@@ -85,7 +85,6 @@ class ClientRepository implements ClientContract {
             $arr = [
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'cnpj' => $data['cnpj'],
                 'password' => $password,
                 'active' => true,
                 'role_id' => Role::where('name', 'User')->first()->id,
@@ -96,6 +95,35 @@ class ClientRepository implements ClientContract {
             if($save) {
                 Mail::to($data['email'])->send(new NewClient($arr));
                 return response()->json(['message' => ApiMessages::success], ApiStatus::created);
+            } else {
+                return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);
+            }
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Array $data) {
+        try {
+
+            $arr = [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $data['password'],
+                'active' => true,
+                'role_id' => Role::where('name', 'User')->first()->id
+            ];
+
+            $save = $this->client->create($arr);
+            if($save) {
+                $auth = ['email' => $arr['email'], 'password' => $arr['password']];
+                $token = auth('client')->attempt($auth);
+                return response()->json(['message' => ApiMessages::success, 'token' => $token], ApiStatus::created);
             } else {
                 return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);
             }

@@ -30,8 +30,8 @@ class ClientRequest extends FormRequest
             return [
                 'name' => 'required|min:2',
                 'email' => 'email|unique:administrators,email',
-                'cnpj' => 'required|cnpj',
-                //'password' => 'required|min:8',
+                //'cnpj' => 'required|cnpj',
+                'password' => 'required|min:8',
                 //'role' => 'required'
             ];
         } else if (in_array('update', $segments)) {
@@ -40,15 +40,14 @@ class ClientRequest extends FormRequest
                 'name' => 'required|min:2',
                 'email' => 'email', Rule::unique('clients')->ignore($user->id),
                 //'cnpj' => 'required|cnpj',
-                //'password' => 'required|min:8',
+                'password' => 'required|min:8',
                 //'role' => 'required'
             ];
         } else {
-            $user = auth('administrator')->user();
             return [
-                'first_name' => 'required|min:4',
-                'last_name' => 'required|min:4',
-                'email' => 'email', Rule::unique('administrators')->ignore($user->id),
+                'name' => 'required|min:2',
+                'email' => 'email|unique:clients,email',
+                'password' => 'required|min:8',
             ];
         }
     }

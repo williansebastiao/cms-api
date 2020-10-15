@@ -82,6 +82,18 @@ class ClientController extends Controller {
     }
 
     /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(ClientRequest $request) {
+        try {
+            return $this->client->register($request->all());
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
      * @param ClientRequest $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse

@@ -15,14 +15,14 @@ class ResetPasswordController extends Controller {
      * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
      */
     protected function guard() {
-        return Auth::guard('administrator');
+        return Auth::guard('clients');
     }
 
     /**
      * @return mixed
      */
     public function broker() {
-        return Password::broker('administrators');
+        return Password::broker('clients');
     }
 
     public function reset(Request $request) {
