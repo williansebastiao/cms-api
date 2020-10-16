@@ -37,10 +37,10 @@ return [
 
         'mongodb' => [
             'driver'   => 'mongodb',
-            'host'     => env('DB_HOST', '88.80.187.193'),
+            'host'     => env('DB_HOST', '161.35.60.217'),
             'port'     => env('DB_PORT', 27017),
             'database' => env('DB_DATABASE', 'stup'),
-            'username' => env('DB_USERNAME', '4v'),
+            'username' => env('DB_USERNAME', 'orbital'),
             'password' => env('DB_PASSWORD', '2ifnfgywyub6cced8w1u6j15nqve0xe8'),
             'options'  => [
                 'database' => 'admin'
