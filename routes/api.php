@@ -50,6 +50,7 @@ Route::group(['middleware' => ['jwt.verify']], function (){
         Route::post('store', [\App\Http\Controllers\Api\ClientController::class, 'store']);
         Route::put('update/{id}', [\App\Http\Controllers\Api\ClientController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\Api\ClientController::class, 'destroy']);
+        Route::post('logout', [\App\Http\Controllers\Api\ClientController::class, 'logout']);
         /*Route::put('profile', 'Api\AdministratorController@profile');
         Route::post('avatar', 'Api\AdministratorController@avatar');
         Route::put('password', 'Api\AdministratorController@password');*/

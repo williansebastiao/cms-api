@@ -15,9 +15,9 @@ class AdministratorSeeder extends Seeder
      */
     public function run() {
         Administrator::create([
-            'first_name' => 'Willians',
+            'first_name' => 'Orbital',
             'last_name' => 'Pereira',
-            'email' => 'willians@4vconnect.com',
+            'email' => 'no-reply@company',
             'password' => 'master',
             'role_id' => Role::where('name', 'Root')->first()->id,
             'active' => true

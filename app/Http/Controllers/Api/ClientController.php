@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Constants\ApiMessages;
 use App\Constants\ApiStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Repositories\ClientContract as Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller {
 
@@ -149,6 +151,18 @@ class ClientController extends Controller {
     public function destroy($id) {
         try {
             return $this->client->destroy($id);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout() {
+        try {
+            Auth::guard('client')->logout();
+            return response()->json(['message' => ApiMessages::seeYa], ApiStatus::success);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
         }

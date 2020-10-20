@@ -41,7 +41,7 @@ return [
             'port'     => env('DB_PORT', 27017),
             'database' => env('DB_DATABASE', 'stup'),
             'username' => env('DB_USERNAME', 'orbital'),
-            'password' => env('DB_PASSWORD', '2ifnfgywyub6cced8w1u6j15nqve0xe8'),
+            'password' => env('DB_PASSWORD', 'ly8XEEZfXiqSwLF13lqLjywBXbRIFWzEgo7WBLIB!fnbTJ5sKSqkY1$O#$et'),
             'options'  => [
                 'database' => 'admin'
             ]
