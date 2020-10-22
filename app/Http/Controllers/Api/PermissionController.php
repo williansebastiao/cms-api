@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Constants\ApiStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PermissionRequest;
 use Illuminate\Http\Request;
 use App\Repositories\PermissionContract as Permission;
 
@@ -34,10 +35,10 @@ class PermissionController extends Controller {
     }
 
     /**
-     * @param Request $request
+     * @param PermissionRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request) {
+    public function store(PermissionRequest $request) {
         try {
             return $this->permission->store($request->all());
         } catch (\Exception $e) {
@@ -46,11 +47,11 @@ class PermissionController extends Controller {
     }
 
     /**
-     * @param Request $request
+     * @param PermissionRequest $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id) {
+    public function update(PermissionRequest $request, $id) {
         try {
             return $this->permission->update($request->all(), $id);
         } catch (\Exception $e) {
