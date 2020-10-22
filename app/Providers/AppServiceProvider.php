@@ -6,6 +6,8 @@ use App\Repositories\AdministratorContract;
 use App\Repositories\AdministratorRepository;
 use App\Repositories\ClientContract;
 use App\Repositories\ClientRepository;
+use App\Repositories\PermissionContract;
+use App\Repositories\PermissionRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function register() {
         $this->app->bind(AdministratorContract::class, AdministratorRepository::class);
         $this->app->bind(ClientContract::class, ClientRepository::class);
+        $this->app->bind(PermissionContract::class, PermissionRepository::class);
     }
 
     /**

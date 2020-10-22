@@ -55,4 +55,10 @@ Route::group(['middleware' => ['jwt.verify']], function (){
         Route::post('avatar', 'Api\AdministratorController@avatar');
         Route::put('password', 'Api\AdministratorController@password');*/
     });
+    Route::group(['prefix' => 'permission'], function (){
+        Route::get('findAll', [\App\Http\Controllers\Api\PermissionController::class, 'findAll']);
+        Route::post('store', [\App\Http\Controllers\Api\PermissionController::class, 'store']);
+        Route::put('update/{id}', [\App\Http\Controllers\Api\PermissionController::class, 'update']);
+        Route::delete('destroy/{id}', [\App\Http\Controllers\Api\PermissionController::class, 'destroy']);
+    });
 });
