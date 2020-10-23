@@ -35,6 +35,25 @@ class PermissionController extends Controller {
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function findAllOrderByDate() {
+        try {
+            return $this->permission->findAllOrderByDate();
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    public function findByName(Request $request) {
+        try {
+            return $this->permission->findByName($request->name);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
      * @param PermissionRequest $request
      * @return \Illuminate\Http\JsonResponse
      */

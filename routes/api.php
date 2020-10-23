@@ -57,6 +57,8 @@ Route::group(['middleware' => ['jwt.verify']], function (){
     });
     Route::group(['prefix' => 'permission'], function (){
         Route::get('findAll', [\App\Http\Controllers\Api\PermissionController::class, 'findAll']);
+        Route::get('findAllOrderByDate', [\App\Http\Controllers\Api\PermissionController::class, 'findAllOrderByDate']);
+        Route::post('findByName', [\App\Http\Controllers\Api\PermissionController::class, 'findByName']);
         Route::post('store', [\App\Http\Controllers\Api\PermissionController::class, 'store']);
         Route::put('update/{id}', [\App\Http\Controllers\Api\PermissionController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\Api\PermissionController::class, 'destroy']);

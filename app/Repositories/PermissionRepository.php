@@ -11,15 +11,44 @@ use Illuminate\Support\Facades\Log;
 
 class PermissionRepository implements PermissionContract {
 
+    /**
+     * @var Permission
+     */
     protected $permission;
 
+    /**
+     * PermissionRepository constructor.
+     * @param Permission $permission
+     */
     public function __construct(Permission $permission) {
         $this->permission = $permission;
     }
 
+    /**
+     * @return mixed
+     */
     public function findAll() {
         return $this->permission->where('active', true)
             ->orderBy('name')
+            ->get();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function findAllOrderByDate() {
+        return $this->permission->where('active', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
+
+    /**
+     * @param String $name
+     * @return mixed
+     */
+    public function findByName(String $name) {
+        return $this->permission->where('name', 'like', '%'.$name.'%')
+            ->where('active', true)
             ->get();
     }
 
