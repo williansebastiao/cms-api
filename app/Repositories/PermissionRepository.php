@@ -18,7 +18,9 @@ class PermissionRepository implements PermissionContract {
     }
 
     public function findAll() {
-        return $this->permission->where('active', true)->first();
+        return $this->permission->where('active', true)
+            ->orderBy('name')
+            ->get();
     }
 
     /**
