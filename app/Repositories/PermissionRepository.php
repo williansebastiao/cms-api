@@ -34,6 +34,14 @@ class PermissionRepository implements PermissionContract {
     }
 
     /**
+     * @param String $id
+     * @return mixed
+     */
+    public function findById(String $id) {
+        return $this->permission->findOrFail($id);
+    }
+
+    /**
      * @return mixed
      */
     public function findAllOrderByDate() {

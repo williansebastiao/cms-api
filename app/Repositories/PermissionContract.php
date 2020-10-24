@@ -7,6 +7,7 @@ namespace App\Repositories;
 interface PermissionContract {
 
     public function findAll();
+    public function findById(String $id);
     public function findAllOrderByDate();
     public function findByName(String $name);
     public function store(Array $data);
