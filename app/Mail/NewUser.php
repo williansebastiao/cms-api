@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewClient extends Mailable {
+class NewUser extends Mailable {
 
     use Queueable, SerializesModels;
 
@@ -32,6 +32,6 @@ class NewClient extends Mailable {
      */
     public function build() {
         return $this->subject('STUP - Dados de acesso')
-            ->markdown('emails.client.new');
+            ->markdown('emails.user.new');
     }
 }

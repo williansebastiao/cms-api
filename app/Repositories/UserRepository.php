@@ -2,36 +2,25 @@
 
 
 namespace App\Repositories;
+
 use App\Constants\ApiMessages;
 use App\Constants\ApiStatus;
-use App\Mail\NewAdministrator;
-use App\Models\Administrator;
-use App\Models\Client;
+use App\Mail\NewUser;
+use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use Intervention\Image\Image;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
+class UserRepository implements UserContract {
 
-class AdministratorRepository implements AdministratorContract {
+    protected $user;
 
-    /**
-     * @var Administrator
-     * @var Client
-     */
-    protected $administrator, $client;
-
-    /**
-     * AdministratorRepository constructor.
-     * @param Administrator $administrator
-     * @param Client $client
-     */
-    public function __construct(Administrator $administrator, Client $client) {
-        $this->administrator = $administrator;
-        $this->client = $client;
+    public function __construct(User $user) {
+        $this->user = $user;
     }
 
     /**
@@ -40,15 +29,15 @@ class AdministratorRepository implements AdministratorContract {
      */
     public function authenticate(Array $data) {
         try {
-            if (!$token = auth('administrator')->attempt($data)) {
+            if (!$token = auth()->attempt($data)) {
                 return response()->json(['message' => ApiMessages::credential], ApiStatus::unprocessableEntity);
             } else {
-                $user = auth('administrator')->user();
+                $user = auth('client')->user();
                 return response()->json(
                     [
                         'message' => 'Usuário autenticado',
                         'token' => $token,
-                        'name' => $user->first_name,
+                        'name' => $user->name,
                         'avatar' => $user->avatar
                     ], ApiStatus::success);
             }
@@ -62,16 +51,15 @@ class AdministratorRepository implements AdministratorContract {
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function me() {
-        $id = auth('administrator')->user()->id;
-        return $this->administrator->with('role')->findOrFail($id);
+        $id = auth()->user()->id;
+        return $this->user->findOrFail($id);
     }
 
     /**
      * @return mixed
      */
     public function findAll() {
-        return $this->administrator->where('active', true)
-            ->with('role')
+        return $this->user->where('active', true)
             ->orderBy('created_at', 'desc')
             ->get();
     }
@@ -81,25 +69,7 @@ class AdministratorRepository implements AdministratorContract {
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function findById($id) {
-        return $this->administrator->with('role')
-            ->findOrFail($id);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function findAllClients() {
-        return $this->client->with('role')
-            ->where('active', true)
-            ->get();
-    }
-
-    /**
-     * @param String $id
-     * @return mixed
-     */
-    public function findClientById(String $id) {
-        return $this->client->with('role')
+        return $this->user->with('role')
             ->findOrFail($id);
     }
 
@@ -112,19 +82,46 @@ class AdministratorRepository implements AdministratorContract {
 
             $password = Str::random(8);
             $arr = [
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
+                'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => $password,
                 'active' => true,
-                'role_id' => Role::where('name', $data['role'])->first()->id,
                 'pass' => $password
             ];
 
-            $save = $this->administrator->create($arr);
+            $save = $this->user->create($arr);
             if($save) {
-                Mail::to($data['email'])->send(new NewAdministrator($arr));
+                Mail::to($data['email'])->send(new NewUser($arr));
                 return response()->json(['message' => ApiMessages::success], ApiStatus::created);
+            } else {
+                return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);
+            }
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Array $data) {
+        try {
+
+            $arr = [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $data['password'],
+                'active' => true,
+                'role_id' => Role::where('name', 'User')->first()->id
+            ];
+
+            $save = $this->user->create($arr);
+            if($save) {
+                $auth = ['email' => $arr['email'], 'password' => $arr['password']];
+                $token = auth()->attempt($auth);
+                return response()->json(['message' => ApiMessages::success, 'token' => $token], ApiStatus::created);
             } else {
                 return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);
             }
@@ -142,16 +139,13 @@ class AdministratorRepository implements AdministratorContract {
     public function update(Array $data, String $id) {
         try {
 
-            $slug = "{$data['first_name']} {$data['last_name']}";
             $arr = [
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
+                'name' => $data['name'],
                 'email' => $data['email'],
-                'slug' => Str::slug($slug),
-                'role_id' => Role::where('name', $data['role'])->first()->id,
+                'slug' => Str::slug($data['name'])
             ];
 
-            $save = $this->administrator->find($id)->update($arr);
+            $save = $this->user->find($id)->update($arr);
             if($save) {
                 return response()->json(['message' => ApiMessages::success], ApiStatus::success);
             } else {
@@ -170,14 +164,14 @@ class AdministratorRepository implements AdministratorContract {
     public function profile(Array $data) {
         try {
 
-            $id = auth('administrator')->user()->id;
+            $id = auth()->user()->id;
             $arr = [
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
                 'email' => $data['email'],
             ];
 
-            $save = $this->administrator->find($id)->update($arr);
+            $save = $this->user->find($id)->update($arr);
             if($save) {
                 return response()->json(['message' => ApiMessages::success], ApiStatus::success);
             } else {
@@ -196,16 +190,16 @@ class AdministratorRepository implements AdministratorContract {
      */
     public function avatar($data=[], $avatar) {
         try {
-            $id = auth('administrator')->user()->id;
+            $id = auth()->user()->id;
             $path = $avatar->store('avatar/' . $id);
             $img = Image::make(storage_path('app/public') . '/' . $path);
             $img->crop($data['width'], $data['height'], $data['x'], $data['y']);
             $img->save(storage_path('app/public') . '/' . $path);
             $source = storage_path('app/public') . '/' . $path;
 
-            $save = $this->administrator->find($id)->update(['avatar' => $path]);
+            $save = $this->user->find($id)->update(['avatar' => $path]);
             if($save) {
-                $source = $this->administrator->find($id)->avatar;
+                $source = $this->user->find($id)->avatar;
                 return response()->json(['message' => ApiMessages::success, 'src' => $source], ApiStatus::success);
             } else {
                 return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);
@@ -223,8 +217,8 @@ class AdministratorRepository implements AdministratorContract {
     public function password($data=[]) {
         try {
 
-            $id = auth('administrator')->user()->id;
-            $user = $this->administrator->find($id);
+            $id = auth()->user()->id;
+            $user = $this->user->find($id);
             $password = $data['old_password'];
             $newPassword = $data['password'];
 
@@ -233,7 +227,7 @@ class AdministratorRepository implements AdministratorContract {
             }
 
             $arr = ['password' => $newPassword,];
-            $user = $this->administrator->find($id)->update($arr);
+            $user = $this->user->find($id)->update($arr);
             if($user) {
                 return response()->json(['message' => ApiMessages::success], ApiStatus::success);
             } else {
@@ -251,7 +245,7 @@ class AdministratorRepository implements AdministratorContract {
      */
     public function destroy(String $id) {
         try {
-            $delete = $this->administrator->find($id)->delete();
+            $delete = $this->user->find($id)->delete();
             if($delete) {
                 return response()->json(['message' => ApiMessages::delete], ApiStatus::success);
             } else {

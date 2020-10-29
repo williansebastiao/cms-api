@@ -61,7 +61,7 @@ class ClientRepository implements ClientContract {
     public function findAll() {
         return $this->client->where('active', true)
             ->with('role')
-            ->orderBy('id', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 

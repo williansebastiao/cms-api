@@ -31,6 +31,13 @@ Route::group(['prefix' => 'client'], function (){
     Route::post('reset', [\App\Http\Controllers\Api\ResetPasswordController::class, 'reset']);
 });
 
+Route::group(['prefix' => 'user'], function (){
+    Route::post('authenticate', [\App\Http\Controllers\Api\UserController::class, 'authenticate']);
+    Route::post('register', [\App\Http\Controllers\Api\UserController::class, 'register']);
+    Route::post('email', [\App\Http\Controllers\Api\UserController::class, 'sendResetLinkEmail']);
+    Route::post('reset', [\App\Http\Controllers\Api\UserController::class, 'reset']);
+});
+
 Route::group(['middleware' => ['jwt.verify']], function (){
     Route::group(['prefix' => 'administrator'], function (){
         Route::get('me', [\App\Http\Controllers\Api\AdministratorController::class, 'me']);
@@ -41,9 +48,6 @@ Route::group(['middleware' => ['jwt.verify']], function (){
         Route::post('store', [\App\Http\Controllers\Api\AdministratorController::class, 'store']);
         Route::put('update/{id}', [\App\Http\Controllers\Api\AdministratorController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\Api\AdministratorController::class, 'destroy']);
-        /*Route::put('profile', 'Api\AdministratorController@profile');
-        Route::post('avatar', 'Api\AdministratorController@avatar');
-        Route::put('password', 'Api\AdministratorController@password');*/
     });
     Route::group(['prefix' => 'client'], function (){
         Route::get('me', [\App\Http\Controllers\Api\ClientController::class, 'me']);
@@ -51,9 +55,14 @@ Route::group(['middleware' => ['jwt.verify']], function (){
         Route::put('update/{id}', [\App\Http\Controllers\Api\ClientController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\Api\ClientController::class, 'destroy']);
         Route::post('logout', [\App\Http\Controllers\Api\ClientController::class, 'logout']);
-        /*Route::put('profile', 'Api\AdministratorController@profile');
-        Route::post('avatar', 'Api\AdministratorController@avatar');
-        Route::put('password', 'Api\AdministratorController@password');*/
+    });
+    Route::group(['prefix' => 'user'], function (){
+        Route::get('me', [\App\Http\Controllers\Api\UserController::class, 'me']);
+        Route::get('findAll', [\App\Http\Controllers\Api\UserController::class, 'findAll']);
+        Route::post('store', [\App\Http\Controllers\Api\UserController::class, 'store']);
+        Route::put('update/{id}', [\App\Http\Controllers\Api\UserController::class, 'update']);
+        Route::delete('destroy/{id}', [\App\Http\Controllers\Api\UserController::class, 'destroy']);
+        Route::post('logout', [\App\Http\Controllers\Api\UserController::class, 'logout']);
     });
     Route::group(['prefix' => 'permission'], function (){
         Route::get('findAll', [\App\Http\Controllers\Api\PermissionController::class, 'findAll']);
