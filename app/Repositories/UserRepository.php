@@ -69,8 +69,7 @@ class UserRepository implements UserContract {
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
      */
     public function findById($id) {
-        return $this->user->with('role')
-            ->findOrFail($id);
+        return $this->user->findOrFail($id);
     }
 
     /**
@@ -80,13 +79,13 @@ class UserRepository implements UserContract {
     public function store(Array $data) {
         try {
 
-            $password = Str::random(8);
             $arr = [
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => $password,
+                'password' => $data['password'],
+                'permission_id' => $data['permission_id'],
                 'active' => true,
-                'pass' => $password
+                'pass' => $data['password']
             ];
 
             $save = $this->user->create($arr);

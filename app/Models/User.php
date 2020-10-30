@@ -67,7 +67,8 @@ class User extends Authenticatable implements JWTSubject, PasswordContract {
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\UrlGenerator|string
      */
     public function getAvatarAttribute($value) {
-        return !is_null($value) ? Storage::url($value) : url('assets/avatar/unknown_circle.png');
+        return $value;
+        //return !is_null($value) ? Storage::url($value) : url('assets/avatar/unknown_circle.png');
     }
 
     /**
