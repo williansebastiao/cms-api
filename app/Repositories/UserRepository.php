@@ -73,6 +73,41 @@ class UserRepository implements UserContract {
     }
 
     /**
+     * @param String $name
+     * @return mixed
+     */
+    public function findByName(String $name) {
+        return $this->user->where('name', 'like', '%'.$name.'%')
+            ->where('active', true)
+            ->get();
+    }
+
+    /**
+     * @param String $name
+     * @return mixed
+     */
+    public function filterByOrder(String $name) {
+        $query = $this->user->where('active', true);
+        switch ($name) {
+            case 1:
+                return $query->orderBy('name', 'asc')
+                    ->get();
+            case 2:
+                return $query->orderBy('email', 'asc')
+                    ->get();
+        }
+    }
+
+    public function filterByStatus(String $name) {
+        switch ($name) {
+            case 1:
+                return $this->user->orderBy('name', 'asc')->where('active', true)->get();
+            case 2:
+                return $this->user->orderBy('name', 'asc')->where('active', false)->get();
+        }
+    }
+
+    /**
      * @param array $data
      * @return \Illuminate\Http\JsonResponse
      */
@@ -141,6 +176,7 @@ class UserRepository implements UserContract {
             $arr = [
                 'name' => $data['name'],
                 'email' => $data['email'],
+                'permission_id' => $data['permission_id'],
                 'slug' => Str::slug($data['name'])
             ];
 

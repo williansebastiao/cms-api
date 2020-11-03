@@ -10,6 +10,9 @@ interface UserContract {
     public function me();
     public function findAll();
     public function findById($id);
+    public function findByName(String $name);
+    public function filterByOrder(String $name);
+    public function filterByStatus(String $name);
     public function store(Array $data);
     public function register(Array $data);
     public function update(Array $data, String $id);

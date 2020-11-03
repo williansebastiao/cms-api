@@ -60,6 +60,9 @@ Route::group(['middleware' => ['jwt.verify']], function (){
         Route::get('me', [\App\Http\Controllers\Api\UserController::class, 'me']);
         Route::get('findAll', [\App\Http\Controllers\Api\UserController::class, 'findAll']);
         Route::get('findById/{id}', [\App\Http\Controllers\Api\UserController::class, 'findById']);
+        Route::post('findByName', [\App\Http\Controllers\Api\UserController::class, 'findByName']);
+        Route::post('filterByOrder', [\App\Http\Controllers\Api\UserController::class, 'filterByOrder']);
+        Route::post('filterByStatus', [\App\Http\Controllers\Api\UserController::class, 'filterByStatus']);
         Route::post('store', [\App\Http\Controllers\Api\UserController::class, 'store']);
         Route::put('update/{id}', [\App\Http\Controllers\Api\UserController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\Api\UserController::class, 'destroy']);

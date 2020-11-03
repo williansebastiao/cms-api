@@ -33,10 +33,11 @@ class UserRequest extends FormRequest {
                 //'password' => 'required|min:8',
             ];
         } else if (in_array('update', $segments)) {
-            $user = auth()->user();
+            //$user = auth()->user();
             return [
                 'name' => 'required|min:2',
-                'email' => 'email', Rule::unique('users')->ignore($user->id),
+                'email' => 'email',
+                //'email' => 'email', Rule::unique('users')->ignore($user->id),
             ];
         } else {
             return [

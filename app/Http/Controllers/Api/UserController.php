@@ -75,6 +75,42 @@ class UserController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+    public function findByName(Request $request) {
+        try {
+            return $this->user->findByName($request->name);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function filterByOrder(Request $request) {
+        try {
+            return $this->user->filterByOrder($request->name);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function filterByStatus(Request $request) {
+        try {
+            return $this->user->filterByStatus($request->name);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(UserRequest $request) {
         try {
             return $this->user->store($request->all());
