@@ -13,7 +13,8 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Jenssegers\Mongodb\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Client extends Authenticatable implements JWTSubject, PasswordContract {
+class Client extends Authenticatable implements JWTSubject, PasswordContract
+{
 
     use HasFactory, SoftDeletes, Notifiable, CanResetPassword;
 
@@ -28,13 +29,14 @@ class Client extends Authenticatable implements JWTSubject, PasswordContract {
      * @var string[]
      */
     protected $hidden = [
-      'password'
+        'password'
     ];
 
     /**
      * @param $value
      */
-    public function setCnpjAttribute($value) {
+    public function setCnpjAttribute($value)
+    {
         $this->attributes['cnpj'] = clearSpecialCharacters($value);
     }
 
@@ -42,14 +44,16 @@ class Client extends Authenticatable implements JWTSubject, PasswordContract {
      * @param $value
      * @return mixed
      */
-    public function getCnpjAttribute($value) {
+    public function getCnpjAttribute($value)
+    {
         return mask('##.###.###/####-##', $value);
     }
 
     /**
      * @param $value
      */
-    public function setPasswordAttribute($value) {
+    public function setPasswordAttribute($value)
+    {
         $this->attributes['password'] = bcrypt($value);
     }
 
@@ -57,14 +61,16 @@ class Client extends Authenticatable implements JWTSubject, PasswordContract {
      * @param $value
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\UrlGenerator|string
      */
-    public function getAvatarAttribute($value) {
-        return !is_null($value) ? Storage::url($value) : url('assets/avatar/unknown_circle.png');
+    public function getAvatarAttribute($value)
+    {
+        return !is_null($value) ? Storage::url($value) : url('assets/images/avatar.jpg');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function role(){
+    public function role()
+    {
         return $this->belongsTo(Role::class);
     }
 
@@ -84,7 +90,8 @@ class Client extends Authenticatable implements JWTSubject, PasswordContract {
      *
      * @return array
      */
-    public function getJWTCustomClaims() {
+    public function getJWTCustomClaims()
+    {
         return [];
     }
 
@@ -92,20 +99,21 @@ class Client extends Authenticatable implements JWTSubject, PasswordContract {
      * @param $roles
      * @return bool
      */
-    public function hasRole($roles) {
+    public function hasRole($roles)
+    {
         $this->have_role = $this->getUserRole();
 
-        if($this->have_role->name == 'Root') {
+        if ($this->have_role->name == 'Root') {
             return true;
         }
 
-        if(is_array($roles)){
-            foreach($roles as $need_role){
-                if($this->checkIfUserHasRole($need_role)) {
+        if (is_array($roles)) {
+            foreach ($roles as $need_role) {
+                if ($this->checkIfUserHasRole($need_role)) {
                     return true;
                 }
             }
-        } else{
+        } else {
             return $this->checkIfUserHasRole($roles);
         }
 
@@ -115,7 +123,8 @@ class Client extends Authenticatable implements JWTSubject, PasswordContract {
     /**
      * @return mixed
      */
-    private function getUserRole() {
+    private function getUserRole()
+    {
         return $this->role()->getResults();
     }
 
@@ -123,25 +132,27 @@ class Client extends Authenticatable implements JWTSubject, PasswordContract {
      * @param $need_role
      * @return bool
      */
-    private function checkIfUserHasRole($need_role) {
-        return (strtolower($need_role)==strtolower($this->have_role->name)) ? true : false;
+    private function checkIfUserHasRole($need_role)
+    {
+        return (strtolower($need_role) == strtolower($this->have_role->name)) ? true : false;
     }
 
     /**
      * @param string $token
      */
-    public function sendPasswordResetNotification($token) {
+    public function sendPasswordResetNotification($token)
+    {
         $this->notify(new ClientResetPasswordNotification($token));
     }
 
-    protected static function booted() {
+    protected static function booted()
+    {
         parent::boot();
-        static::created(function($model){
+        static::created(function ($model) {
             $model->update(['slug' => Str::slug($model->name)]);
         });
-        static::deleted(function($model){
+        static::deleted(function ($model) {
             $model->update(['active' => false]);
         });
     }
-
 }

@@ -13,7 +13,8 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Jenssegers\Mongodb\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject, PasswordContract {
+class User extends Authenticatable implements JWTSubject, PasswordContract
+{
 
     use HasFactory, SoftDeletes, Notifiable, CanResetPassword;
 
@@ -43,7 +44,8 @@ class User extends Authenticatable implements JWTSubject, PasswordContract {
     /**
      * @param $value
      */
-    public function setCnpjAttribute($value) {
+    public function setCnpjAttribute($value)
+    {
         $this->attributes['cnpj'] = clearSpecialCharacters($value);
     }
 
@@ -51,14 +53,16 @@ class User extends Authenticatable implements JWTSubject, PasswordContract {
      * @param $value
      * @return mixed
      */
-    public function getCnpjAttribute($value) {
+    public function getCnpjAttribute($value)
+    {
         return mask('##.###.###/####-##', $value);
     }
 
     /**
      * @param $value
      */
-    public function setPasswordAttribute($value) {
+    public function setPasswordAttribute($value)
+    {
         $this->attributes['password'] = bcrypt($value);
     }
 
@@ -66,14 +70,16 @@ class User extends Authenticatable implements JWTSubject, PasswordContract {
      * @param $value
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\UrlGenerator|string
      */
-    public function getAvatarAttribute($value) {
-        return !is_null($value) || isset($value) ? Storage::url($value) : url('assets/avatar/unknown_circle.png');
+    public function getAvatarAttribute($value)
+    {
+        return !is_null($value) || isset($value) ? Storage::url($value) : url('assets/images/avatar.jpg');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\Jenssegers\Mongodb\Relations\BelongsTo
      */
-    public function permission() {
+    public function permission()
+    {
         return $this->belongsTo(Permission::class);
     }
 
@@ -92,25 +98,27 @@ class User extends Authenticatable implements JWTSubject, PasswordContract {
      *
      * @return array
      */
-    public function getJWTCustomClaims() {
+    public function getJWTCustomClaims()
+    {
         return [];
     }
 
     /**
      * @param string $token
      */
-    public function sendPasswordResetNotification($token) {
+    public function sendPasswordResetNotification($token)
+    {
         $this->notify(new UserResetPasswordNotification($token));
     }
 
-    protected static function booted() {
+    protected static function booted()
+    {
         parent::boot();
-        static::created(function($model){
+        static::created(function ($model) {
             $model->update(['slug' => Str::slug($model->name)]);
         });
-        static::deleted(function($model){
+        static::deleted(function ($model) {
             $model->update(['active' => false]);
         });
     }
-
 }
