@@ -13,6 +13,7 @@ interface UserContract {
     public function findByName(String $name);
     public function filterByOrder(String $name);
     public function filterByStatus(String $name);
+    public function filterByRole(String $name);
     public function store(Array $data);
     public function register(Array $data);
     public function update(Array $data, String $id);

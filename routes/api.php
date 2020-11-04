@@ -63,6 +63,7 @@ Route::group(['middleware' => ['jwt.verify']], function (){
         Route::post('findByName', [\App\Http\Controllers\Api\UserController::class, 'findByName']);
         Route::post('filterByOrder', [\App\Http\Controllers\Api\UserController::class, 'filterByOrder']);
         Route::post('filterByStatus', [\App\Http\Controllers\Api\UserController::class, 'filterByStatus']);
+        Route::post('filterByRole', [\App\Http\Controllers\Api\UserController::class, 'filterByRole']);
         Route::post('store', [\App\Http\Controllers\Api\UserController::class, 'store']);
         Route::put('update/{id}', [\App\Http\Controllers\Api\UserController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\Api\UserController::class, 'destroy']);

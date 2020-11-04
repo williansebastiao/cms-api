@@ -60,6 +60,7 @@ class UserRepository implements UserContract {
      */
     public function findAll() {
         return $this->user->where('active', true)
+            ->with('permission')
             ->orderBy('created_at', 'desc')
             ->get();
     }
@@ -98,6 +99,10 @@ class UserRepository implements UserContract {
         }
     }
 
+    /**
+     * @param String $name
+     * @return mixed
+     */
     public function filterByStatus(String $name) {
         switch ($name) {
             case 1:
@@ -105,6 +110,17 @@ class UserRepository implements UserContract {
             case 2:
                 return $this->user->orderBy('name', 'asc')->where('active', false)->get();
         }
+    }
+
+    /**
+     * @param String $name
+     * @return mixed
+     */
+    public function filterByRole(String $name) {
+        return $this->user->where('permission_id', $name)
+            ->where('active', true)
+            ->orderBy('name', 'asc')
+            ->get();
     }
 
     /**
@@ -118,6 +134,7 @@ class UserRepository implements UserContract {
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => $data['password'],
+                'avatar' => null,
                 'permission_id' => $data['permission_id'],
                 'active' => true,
                 'pass' => $data['password']

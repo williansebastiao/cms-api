@@ -111,6 +111,18 @@ class UserController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+    public function filterByRole(Request $request) {
+        try {
+            return $this->user->filterByRole($request->name);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(UserRequest $request) {
         try {
             return $this->user->store($request->all());

@@ -30,7 +30,7 @@ class UserRequest extends FormRequest {
             return [
                 'name' => 'required|min:2',
                 'email' => 'email|unique:users,email',
-                //'password' => 'required|min:8',
+                'password' => 'required|min:8',
             ];
         } else if (in_array('update', $segments)) {
             //$user = auth()->user();
