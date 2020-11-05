@@ -79,7 +79,7 @@ class UserRepository implements UserContract {
      * @return mixed
      */
     public function findByName(String $name) {
-        return $this->user->where('name', 'like', '%'.$name.'%')
+        return $this->user->where('first_name', 'like', '%'.$name.'%')
             ->where('active', true)
             ->get();
     }
@@ -167,6 +167,7 @@ class UserRepository implements UserContract {
                 'last_name' => $data['last_name'],
                 'email' => $data['email'],
                 'password' => $data['password'],
+                'avatar' => null,
                 'active' => true,
                 'role_id' => Role::where('name', 'User')->first()->id
             ];
