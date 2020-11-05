@@ -199,7 +199,7 @@ class UserRepository implements UserContract {
                 'last_name' => $data['last_name'],
                 'email' => strtolower($data['email']),
                 'permission_id' => $data['permission_id'],
-                'slug' => Str::slug($data['name'])
+                'slug' => Str::slug($data['first_name'] . ' ' . $data['last_name'])
             ];
 
             $save = $this->user->find($id)->update($arr);
