@@ -32,12 +32,12 @@ class UserRepository implements UserContract {
             if (!$token = auth()->attempt($data)) {
                 return response()->json(['message' => ApiMessages::credential], ApiStatus::unprocessableEntity);
             } else {
-                $user = auth('client')->user();
+                $user = auth()->user();
                 return response()->json(
                     [
                         'message' => 'Usuário autenticado',
                         'token' => $token,
-                        'name' => $user->name,
+                        'name' => $user->first_name,
                         'avatar' => $user->avatar
                     ], ApiStatus::success);
             }
@@ -52,7 +52,8 @@ class UserRepository implements UserContract {
      */
     public function me() {
         $id = auth()->user()->id;
-        return $this->user->findOrFail($id);
+        return $this->user->with('permission')
+            ->findOrFail($id);
     }
 
     /**
