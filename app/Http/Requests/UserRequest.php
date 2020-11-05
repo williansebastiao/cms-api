@@ -63,9 +63,10 @@ class UserRequest extends FormRequest {
      */
     public function attributes(){
         return [
-            'name' => 'nome',
+            'first_name' => 'primeiro nome',
+            'last_name' => 'sobrenome',
             'email' => 'e-mail',
-            'role' => 'permissão',
+            'permission' => 'permissão',
         ];
     }
 }
