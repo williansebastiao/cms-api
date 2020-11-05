@@ -28,20 +28,23 @@ class UserRequest extends FormRequest {
         $segments = $this->segments();
         if(in_array('store', $segments)) {
             return [
-                'name' => 'required|min:2',
+                'first_name' => 'required|min:2',
+                'last_name' => 'required|min:2',
                 'email' => 'email|unique:users,email',
                 'password' => 'required|min:8',
             ];
         } else if (in_array('update', $segments)) {
             //$user = auth()->user();
             return [
-                'name' => 'required|min:2',
+                'first_name' => 'required|min:2',
+                'last_name' => 'required|min:2',
                 'email' => 'email',
                 //'email' => 'email', Rule::unique('users')->ignore($user->id),
             ];
         } else {
             return [
-                'name' => 'required|min:2',
+                'first_name' => 'required|min:2',
+                'last_name' => 'required|min:2',
                 'email' => 'email|unique:users,email',
                 'password' => 'required|min:8',
             ];

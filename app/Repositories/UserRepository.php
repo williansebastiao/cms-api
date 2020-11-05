@@ -131,8 +131,9 @@ class UserRepository implements UserContract {
         try {
 
             $arr = [
-                'name' => $data['name'],
-                'email' => $data['email'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'email' => strtolower($data['email']),
                 'password' => $data['password'],
                 'avatar' => null,
                 'permission_id' => $data['permission_id'],
@@ -142,7 +143,7 @@ class UserRepository implements UserContract {
 
             $save = $this->user->create($arr);
             if($save) {
-                Mail::to($data['email'])->send(new NewUser($arr));
+                Mail::to(strtolower($data['email']))->send(new NewUser($arr));
                 return response()->json(['message' => ApiMessages::success], ApiStatus::created);
             } else {
                 return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);
@@ -161,7 +162,8 @@ class UserRepository implements UserContract {
         try {
 
             $arr = [
-                'name' => $data['name'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
                 'email' => $data['email'],
                 'password' => $data['password'],
                 'active' => true,
@@ -191,8 +193,9 @@ class UserRepository implements UserContract {
         try {
 
             $arr = [
-                'name' => $data['name'],
-                'email' => $data['email'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'email' => strtolower($data['email']),
                 'permission_id' => $data['permission_id'],
                 'slug' => Str::slug($data['name'])
             ];

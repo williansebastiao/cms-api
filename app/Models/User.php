@@ -22,7 +22,12 @@ class User extends Authenticatable implements JWTSubject, PasswordContract
      * @var string[]
      */
     protected $fillable = [
-        'name', 'email', 'password', 'slug', 'avatar', 'permission_id', 'active'
+        'first_name', 'last_name', 'email', 'password',
+        'slug', 'avatar', 'permission_id', 'active'
+    ];
+
+    protected $appends = [
+        'full_name'
     ];
 
     /**
@@ -40,6 +45,15 @@ class User extends Authenticatable implements JWTSubject, PasswordContract
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute() {
+        $firstName = $this->attributes['first_name'];
+        $lastName = $this->attributes['last_name'];
+        return "${firstName} ${lastName}";
+    }
 
     /**
      * @param $value
@@ -115,7 +129,7 @@ class User extends Authenticatable implements JWTSubject, PasswordContract
     {
         parent::boot();
         static::created(function ($model) {
-            $model->update(['slug' => Str::slug($model->name)]);
+            $model->update(['slug' => Str::slug($model->first_name . ' ' . $model->last_name)]);
         });
         static::deleted(function ($model) {
             $model->update(['active' => false]);
