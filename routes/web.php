@@ -16,3 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function(){
     return response()->json(['message' => 'API Stup :)']);
 });
+
+Route::get('export/roles', function(){
+    return view('export.roles');
+});

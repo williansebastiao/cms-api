@@ -20,6 +20,7 @@ class ApiMessages {
     const passwordUserInvalid = 'Usuário inválido';
     const passwordError = 'Erro inexperado';
     const allFields = 'Preencha todos os dados';
+    const zeroData = 'Nenhum registro encontrado';
     const seeYa = 'Até mais :)';
 
 }

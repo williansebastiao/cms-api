@@ -101,4 +101,15 @@ class PermissionController extends Controller {
             return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
         }
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function export() {
+        try {
+            return $this->permission->export();
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
 }

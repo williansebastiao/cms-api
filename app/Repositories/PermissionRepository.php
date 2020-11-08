@@ -6,8 +6,11 @@ namespace App\Repositories;
 
 use App\Constants\ApiMessages;
 use App\Constants\ApiStatus;
+use App\Exports\RoleExport;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 
 class PermissionRepository implements PermissionContract {
 
@@ -109,6 +112,27 @@ class PermissionRepository implements PermissionContract {
             } else {
                 return response()->json(['message' => ApiMessages::deleteError], ApiStatus::unprocessableEntity);
             }
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function export() {
+        try {
+            $query = $this->permission->where('active', true)->get();
+            if(count($query) > 0) {
+                Storage::deleteDirectory('export');
+                Excel::store(new RoleExport(), 'export/permission.xls');
+                $download = 'export/permission.xls';
+                return response()->json(['message' => Storage::url($download)], ApiStatus::success);
+            } else {
+                return response()->json(['message' => ApiMessages::zeroData], ApiStatus::unprocessableEntity);
+            }
+
         } catch (\Exception $e) {
             Log::debug($e->getMessage());
             return response()->json(['message' => $e->getMessage()], ApiStatus::internalServerError);
