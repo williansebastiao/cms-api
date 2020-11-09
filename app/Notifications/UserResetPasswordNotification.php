@@ -46,7 +46,8 @@ class UserResetPasswordNotification extends Notification {
             ->subject('Stup  -  Esqueci minha senha')
             ->line('Recebemos um pedido de redefinição de senha para sua conta.')
             ->action('Redefinir senha', $url)
-            ->line('Se você não solicitou uma redefinição da senha, nenhuma ação adicional será necessária.');
+            ->line('Se você não solicitou uma redefinição da senha, nenhuma ação adicional será necessária.')
+            ->salutation('');
     }
 
     /**

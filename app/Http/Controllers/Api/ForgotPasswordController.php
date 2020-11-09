@@ -21,7 +21,7 @@ class ForgotPasswordController extends Controller {
     */
 
     public function broker() {
-        return Password::broker('clients');
+        return Password::broker();
     }
 
     protected function sendResetLinkEmail(Request $request) {

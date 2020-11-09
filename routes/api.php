@@ -34,8 +34,8 @@ Route::group(['prefix' => 'client'], function (){
 Route::group(['prefix' => 'user'], function (){
     Route::post('authenticate', [\App\Http\Controllers\Api\UserController::class, 'authenticate']);
     Route::post('register', [\App\Http\Controllers\Api\UserController::class, 'register']);
-    Route::post('email', [\App\Http\Controllers\Api\UserController::class, 'sendResetLinkEmail']);
-    Route::post('reset', [\App\Http\Controllers\Api\UserController::class, 'reset']);
+    Route::post('email', [\App\Http\Controllers\Api\ForgotPasswordController::class, 'sendResetLinkEmail']);
+    Route::post('reset', [\App\Http\Controllers\Api\ResetPasswordController::class, 'reset']);
 });
 
 Route::group(['middleware' => ['jwt.verify']], function (){

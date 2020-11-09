@@ -34,16 +34,27 @@ width: 100% !important;
 <!-- Email Body -->
 <tr>
 <td class="body" width="100%" cellpadding="0" cellspacing="0">
-<table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
-<!-- Body content -->
-<tr>
-<td class="content-cell">
-{{ Illuminate\Mail\Markdown::parse($slot) }}
-
-{{ $subcopy ?? '' }}
-</td>
-</tr>
-</table>
+    <table bgcolor="#f5f5f5" align="center" class="full" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td>
+                <table bgcolor="white" width="750" align="center" class="margin-full" border="0" cellpadding="0"
+                       cellspacing="0">
+                    <tr>
+                        <td>
+                            <table width="600" align="center" class="margin-pad" border="0" cellpadding="0"
+                                   cellspacing="0">
+                                <tr>
+                                    <td class="res-center" style="text-align: center; color: #1e1e41; font-family: 'Montserrat', Arial, Sans-serif; font-size: 16px; line-height: 23px; word-break: break-word">
+                                        {{ Illuminate\Mail\Markdown::parse($slot) }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </td>
 </tr>
 
