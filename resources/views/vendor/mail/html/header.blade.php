@@ -20,7 +20,7 @@
                                         <a href="#" style="text-decoration: none; display: block; margin: 0 auto;">
                                             <img width="100"
                                                  style="max-width: 100px; width: 100%; display: block; line-height: 0px; font-size: 0px; border: 0px; border-radius: 4px;"
-                                                 src="images/logo.png">
+                                                 src="https://stup-api.station.orbital.company/assets/mail/images/logo.png">
                                         </a>
                                     </td>
                                 </tr>
