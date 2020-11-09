@@ -5,14 +5,17 @@ namespace App\Repositories;
 
 use App\Constants\ApiMessages;
 use App\Constants\ApiStatus;
+use App\Exports\UserExport;
 use App\Mail\NewUser;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Image;
+use Maatwebsite\Excel\Facades\Excel;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserRepository implements UserContract {
@@ -308,6 +311,27 @@ class UserRepository implements UserContract {
             } else {
                 return response()->json(['message' => ApiMessages::deleteError], ApiStatus::unprocessableEntity);
             }
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function export() {
+        try {
+            $query = $this->user->where('active', true)->get();
+            if(count($query) > 0) {
+                Storage::deleteDirectory('export');
+                Excel::store(new UserExport(), 'export/user.xls');
+                $download = 'export/user.xls';
+                return response()->json(['message' => Storage::url($download)], ApiStatus::success);
+            } else {
+                return response()->json(['message' => ApiMessages::zeroData], ApiStatus::unprocessableEntity);
+            }
+
         } catch (\Exception $e) {
             Log::debug($e->getMessage());
             return response()->json(['message' => $e->getMessage()], ApiStatus::internalServerError);

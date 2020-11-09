@@ -216,4 +216,15 @@ class UserController extends Controller {
         }
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function export() {
+        try {
+            return $this->user->export();
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
 }
