@@ -68,6 +68,7 @@ Route::group(['middleware' => ['jwt.verify']], function (){
         Route::post('export', [\App\Http\Controllers\Api\UserController::class, 'export']);
         Route::put('update/{id}', [\App\Http\Controllers\Api\UserController::class, 'update']);
         Route::put('personal/{id}', [\App\Http\Controllers\Api\UserController::class, 'personal']);
+        Route::put('password/{id}', [\App\Http\Controllers\Api\UserController::class, 'password']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\Api\UserController::class, 'destroy']);
         Route::post('logout', [\App\Http\Controllers\Api\UserController::class, 'logout']);
     });

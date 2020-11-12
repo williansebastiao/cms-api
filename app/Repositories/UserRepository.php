@@ -219,6 +219,39 @@ class UserRepository implements UserContract {
 
     /**
      * @param array $data
+     * @param Int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function personal(Array $data, String $id) {
+        try {
+
+            $arr = [
+                'site' => $data['site'],
+                'phone' => $data['phone'],
+                'address' => [
+                    'zipcode' => $data['zipcode'],
+                    'street' => $data['address'],
+                    'number' => $data['number'],
+                    'neighborhood' => $data['neighborhood'],
+                    'state' => $data['state'],
+                    'city' => $data['city'],
+                ]
+            ];
+
+            $save = $this->user->find($id)->update($arr);
+            if($save) {
+                return response()->json(['message' => ApiMessages::success], ApiStatus::success);
+            } else {
+                return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);
+            }
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param array $data
      * @return \Illuminate\Http\JsonResponse
      */
     public function profile(Array $data) {
@@ -283,7 +316,7 @@ class UserRepository implements UserContract {
             $newPassword = $data['password'];
 
             if(!Hash::check($password, $user->password)) {
-                return response()->json(['message' => ApiMessages::password], ApiStatus::internalServerError);
+                return response()->json(['message' => ApiMessages::password], ApiStatus::unprocessableEntity);
             }
 
             $arr = ['password' => $newPassword,];

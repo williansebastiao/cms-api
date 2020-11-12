@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Constants\ApiStatus;
+use App\Rules\Cellphone;
+use App\Rules\Zipcode;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -44,13 +46,19 @@ class UserRequest extends FormRequest {
         } else if(in_array('personal', $segments)) {
             return [
                 'site' => 'required|url',
-                'phone' => 'required|min:2',
-                'zipcode' => 'email|unique:users,email',
-                'address' => 'required|min:8',
-                'number' => 'required|min:8',
-                'neighborhood' => 'required|min:8',
-                'state' => 'required|min:8',
-                'city' => 'required|min:8',
+                'phone' => ['required', new Cellphone()],
+                'zipcode' => ['required', new Zipcode()],
+                'address' => 'required|min:4',
+                'number' => 'required|min:1|max:6',
+                'neighborhood' => 'required|min:2|max:10',
+                'state' => 'required|min:2|max:2',
+                'city' => 'required|min:2|max:20',
+            ];
+        } else if(in_array('password', $segments)) {
+            return [
+                'old_password' => 'required|min:8',
+                'password' => 'required|min:8',
+                'confirm_password' => 'required|min:8|same:password',
             ];
         } else {
             return [
@@ -78,6 +86,10 @@ class UserRequest extends FormRequest {
             'last_name' => 'sobrenome',
             'email' => 'e-mail',
             'permission' => 'permissão',
+            'zipcode' => 'cep',
+            'old_password' => 'senha antiga',
+            'password' => 'senha',
+            'confirm_password' => 'confirmar senha'
         ];
     }
 }

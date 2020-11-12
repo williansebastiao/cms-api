@@ -158,6 +158,19 @@ class UserController extends Controller {
 
     /**
      * @param UserRequest $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function personal(UserRequest $request, $id) {
+        try {
+            return $this->user->personal($request->all(), $id);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param UserRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function profile(UserRequest $request) {
@@ -181,10 +194,10 @@ class UserController extends Controller {
     }
 
     /**
-     * @param Request $request
+     * @param UserRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function password(Request $request) {
+    public function password(UserRequest $request) {
         try {
             return $this->user->password($request->all());
         } catch (\Exception $e) {
