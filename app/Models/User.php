@@ -22,7 +22,9 @@ class User extends Authenticatable implements JWTSubject, PasswordContract
      * @var string[]
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password',
+        'first_name', 'last_name', 'email', 'site',
+        'phone', 'zipcode', 'address', 'number',
+        'neighborhood', 'state', 'city', 'password',
         'slug', 'avatar', 'permission_id', 'active'
     ];
 
@@ -67,16 +69,36 @@ class User extends Authenticatable implements JWTSubject, PasswordContract
      * @param $value
      * @return mixed
      */
-    public function getCnpjAttribute($value)
-    {
+    public function getCnpjAttribute($value) {
         return mask('##.###.###/####-##', $value);
     }
 
     /**
      * @param $value
      */
-    public function setPasswordAttribute($value)
-    {
+    public function setPhoneAttribute($value) {
+        $this->attributes['phone'] = clearSpecialCharacters($value);
+    }
+
+    /**
+     * @param $value
+     */
+    public function setZipcodeAttribute($value) {
+        $this->attributes['zipcode'] = clearSpecialCharacters($value);
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function getZipcodeAttribute($value) {
+        return mask('#####-###', $value);
+    }
+
+    /**
+     * @param $value
+     */
+    public function setPasswordAttribute($value) {
         $this->attributes['password'] = bcrypt($value);
     }
 
