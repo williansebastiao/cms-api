@@ -82,4 +82,7 @@ Route::group(['middleware' => ['jwt.verify']], function (){
         Route::put('update/{id}', [\App\Http\Controllers\Api\PermissionController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\Api\PermissionController::class, 'destroy']);
     });
+    Route::group(['prefix' => 'notification'], function (){
+        Route::post('send', [\App\Http\Controllers\Api\NotificationController::class, 'send']);
+    });
 });

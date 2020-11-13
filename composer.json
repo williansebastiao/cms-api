@@ -21,6 +21,7 @@
         "laravel/tinker": "^2.0",
         "lucascudo/laravel-pt-br-localization": "^1.1",
         "maatwebsite/excel": "^3.1",
+        "pusher/pusher-php-server": "^4.1",
         "sendgrid/sendgrid": "^7.8",
         "spatie/flysystem-dropbox": "^1.2",
         "spatie/laravel-backup": "^6.11",
