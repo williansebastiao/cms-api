@@ -36,11 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.sendgrid.net'),
-            'port' => env('MAIL_PORT', 587),
+            'host' => env('MAIL_HOST', 'mail.smtp2go.com'),
+            'port' => env('MAIL_PORT', 2525),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME', 'apikey'),
-            'password' => env('MAIL_PASSWORD', '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'),
+            'username' => env('MAIL_USERNAME', 'stup'),
+            'password' => env('MAIL_PASSWORD', 'b2g3cm55bzhwZ3Qw'),
             'timeout' => null,
             'auth_mode' => null,
         ],

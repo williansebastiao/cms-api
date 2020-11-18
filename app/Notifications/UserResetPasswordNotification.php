@@ -11,15 +11,16 @@ class UserResetPasswordNotification extends Notification {
 
     use Queueable;
 
-    private $token;
+    private $token,$name;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token) {
+    public function __construct($token,$name) {
         $this->token = $token;
+        $this->name = $name;
     }
 
     /**
@@ -41,13 +42,12 @@ class UserResetPasswordNotification extends Notification {
     public function toMail($notifiable) {
 
         $url = config('url.local.reset') . $this->token;
+        $name = $this->name;
+        $initials = $name[0];
 
-        return (new MailMessage)
-            ->subject('Stup  -  Esqueci minha senha')
-            ->line('Recebemos um pedido de redefinição de senha para sua conta.')
-            ->action('Redefinir senha', $url)
-            ->line('Se você não solicitou uma redefinição da senha, nenhuma ação adicional será necessária.')
-            ->salutation('');
+        return (new MailMessage)->view(
+            'emails.user.reset', ['url' => $url, 'name' => $name, 'initials' => $initials]
+        )->subject('Stup  -  Esqueci minha senha');
     }
 
     /**

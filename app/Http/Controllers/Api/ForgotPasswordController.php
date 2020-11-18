@@ -48,7 +48,7 @@ class ForgotPasswordController extends Controller {
             }
 
         } catch (\Exception $e) {
-            return response()->json(['message' => ApiMessages::allFields], ApiStatus::unprocessableEntity);
+            return response()->json(['message' => $e->getMessage()], ApiStatus::unprocessableEntity);
         }
     }
 

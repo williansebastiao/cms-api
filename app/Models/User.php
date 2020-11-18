@@ -13,8 +13,7 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Jenssegers\Mongodb\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject, PasswordContract
-{
+class User extends Authenticatable implements JWTSubject, PasswordContract {
 
     use HasFactory, SoftDeletes, Notifiable, CanResetPassword;
 
@@ -59,8 +58,7 @@ class User extends Authenticatable implements JWTSubject, PasswordContract
     /**
      * @param $value
      */
-    public function setCnpjAttribute($value)
-    {
+    public function setCnpjAttribute($value) {
         $this->attributes['cnpj'] = clearSpecialCharacters($value);
     }
 
@@ -105,16 +103,14 @@ class User extends Authenticatable implements JWTSubject, PasswordContract
      * @param $value
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\UrlGenerator|string
      */
-    public function getAvatarAttribute($value)
-    {
+    public function getAvatarAttribute($value) {
         return !is_null($value) || isset($value) ? Storage::url($value) : url('assets/images/avatar.jpg');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\Jenssegers\Mongodb\Relations\BelongsTo
      */
-    public function permission()
-    {
+    public function permission() {
         return $this->belongsTo(Permission::class);
     }
 
@@ -123,8 +119,7 @@ class User extends Authenticatable implements JWTSubject, PasswordContract
      *
      * @return mixed
      */
-    public function getJWTIdentifier()
-    {
+    public function getJWTIdentifier() {
         return $this->getKey();
     }
 
@@ -133,21 +128,19 @@ class User extends Authenticatable implements JWTSubject, PasswordContract
      *
      * @return array
      */
-    public function getJWTCustomClaims()
-    {
+    public function getJWTCustomClaims() {
         return [];
     }
 
     /**
      * @param string $token
      */
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new UserResetPasswordNotification($token));
+    public function sendPasswordResetNotification($token) {
+        $name = $this->attributes['first_name'];
+        $this->notify(new UserResetPasswordNotification($token,$name));
     }
 
-    protected static function booted()
-    {
+    protected static function booted() {
         parent::boot();
         static::created(function ($model) {
             $model->update(['slug' => Str::slug($model->first_name . ' ' . $model->last_name)]);
