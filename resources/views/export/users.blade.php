@@ -23,7 +23,7 @@
             <th scope="row">{{$user->first_name}}</th>
             <th scope="row">{{$user->last_name}}</th>
             <th scope="row">{{$user->email}}</th>
-            <th scope="row">{{$user->permission->name}}</th>
+            <th scope="row">{{is_null($user->permission) ? 'Não vinculado' : $user->permission->name}}</th>
             <th scope="row">{{$user->active ? 'Sim' : 'Não'}}</th>
         </tr>
     @endforeach
