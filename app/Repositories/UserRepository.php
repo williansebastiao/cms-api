@@ -229,12 +229,12 @@ class UserRepository implements UserContract {
                 'site' => $data['site'],
                 'phone' => $data['phone'],
                 'address' => [
-                    'zipcode' => $data['zipcode'],
-                    'street' => $data['address'],
-                    'number' => $data['number'],
-                    'neighborhood' => $data['neighborhood'],
-                    'state' => $data['state'],
-                    'city' => $data['city'],
+                    'zipcode' => $data['address']['zipcode'],
+                    'street' => $data['address']['street'],
+                    'number' => $data['address']['number'],
+                    'neighborhood' => $data['address']['neighborhood'],
+                    'state' => $data['address']['state'],
+                    'city' => $data['address']['city'],
                 ]
             ];
 

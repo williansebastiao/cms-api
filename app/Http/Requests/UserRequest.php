@@ -47,12 +47,12 @@ class UserRequest extends FormRequest {
             return [
                 'site' => 'required|url',
                 'phone' => ['required', new Cellphone()],
-                'zipcode' => ['required', new Zipcode()],
-                'address' => 'required|min:4',
-                'number' => 'required|min:1|max:6',
-                'neighborhood' => 'required|min:2|max:10',
-                'state' => 'required|min:2|max:2',
-                'city' => 'required|min:2|max:20',
+                'address.zipcode' => ['required', new Zipcode()],
+                'address.street' => 'required|min:4',
+                'address.number' => 'required|min:1|max:6',
+                'address.neighborhood' => 'required|min:2|max:10',
+                'address.state' => 'required|min:2|max:2',
+                'address.city' => 'required|min:2|max:20',
             ];
         } else if(in_array('password', $segments)) {
             return [
@@ -86,7 +86,12 @@ class UserRequest extends FormRequest {
             'last_name' => 'sobrenome',
             'email' => 'e-mail',
             'permission' => 'permissão',
-            'zipcode' => 'cep',
+            'address.zipcode' => 'cep',
+            'address.street' => 'enderećo',
+            'address.number' => 'número',
+            'address.neighborhood' => 'bairro',
+            'address.state' => 'estado',
+            'address.city' => 'cidade',
             'old_password' => 'senha antiga',
             'password' => 'senha',
             'confirm_password' => 'confirmar senha'
