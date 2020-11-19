@@ -41,7 +41,7 @@ class UserResetPasswordNotification extends Notification {
      */
     public function toMail($notifiable) {
 
-        $url = config('url.local.reset') . $this->token;
+        $url = config('url.dev.reset') . $this->token;
         $name = $this->name;
         $initials = $name[0];
 
