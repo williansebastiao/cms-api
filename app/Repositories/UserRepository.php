@@ -55,7 +55,7 @@ class UserRepository implements UserContract {
      */
     public function me() {
         $id = auth()->user()->id;
-        return $this->user->with('permission')
+        return $this->user->with(['role', 'permission'])
             ->findOrFail($id);
     }
 
