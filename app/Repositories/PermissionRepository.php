@@ -9,6 +9,7 @@ use App\Constants\ApiStatus;
 use App\Exports\RoleExport;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
@@ -88,6 +89,7 @@ class PermissionRepository implements PermissionContract {
      */
     public function update(Array $data, String $id) {
         try {
+            $data['slug'] = Str::slug($data['name']);
             $save = $this->permission->find($id)->update($data);
             if($save) {
                 return response()->json(['message' => ApiMessages::success], ApiStatus::success);
