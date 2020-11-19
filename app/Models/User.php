@@ -23,7 +23,7 @@ class User extends Authenticatable implements JWTSubject, PasswordContract {
     protected $fillable = [
         'first_name', 'last_name', 'email', 'site',
         'phone', 'address', 'password', 'slug',
-        'avatar', 'permission_id', 'active'
+        'avatar', 'role_id', 'permission_id', 'active'
     ];
 
     protected $appends = [
@@ -53,6 +53,13 @@ class User extends Authenticatable implements JWTSubject, PasswordContract {
         $firstName = $this->attributes['first_name'];
         $lastName = $this->attributes['last_name'];
         return "${firstName} ${lastName}";
+    }
+
+    /**
+     * @param $value
+     */
+    public function setEmailAttribute($value) {
+        $this->attributes['email'] = strtolower($value);
     }
 
     /**
@@ -110,6 +117,14 @@ class User extends Authenticatable implements JWTSubject, PasswordContract {
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\Jenssegers\Mongodb\Relations\BelongsTo
      */
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\Jenssegers\Mongodb\Relations\BelongsTo
+     */
     public function permission() {
         return $this->belongsTo(Permission::class);
     }
@@ -138,6 +153,45 @@ class User extends Authenticatable implements JWTSubject, PasswordContract {
     public function sendPasswordResetNotification($token) {
         $name = $this->attributes['first_name'];
         $this->notify(new UserResetPasswordNotification($token,$name));
+    }
+
+    /**
+     * @param $roles
+     * @return bool
+     */
+    public function hasRole($roles) {
+        $this->have_role = $this->getUserRole();
+
+        if($this->have_role->name == 'Root') {
+            return true;
+        }
+
+        if(is_array($roles)){
+            foreach($roles as $need_role){
+                if($this->checkIfUserHasRole($need_role)) {
+                    return true;
+                }
+            }
+        } else{
+            return $this->checkIfUserHasRole($roles);
+        }
+
+        return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function getUserRole() {
+        return $this->role()->getResults();
+    }
+
+    /**
+     * @param $need_role
+     * @return bool
+     */
+    private function checkIfUserHasRole($need_role) {
+        return (strtolower($need_role)==strtolower($this->have_role->name)) ? true : false;
     }
 
     protected static function booted() {

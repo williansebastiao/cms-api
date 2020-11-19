@@ -64,7 +64,7 @@ class UserRepository implements UserContract {
      */
     public function findAll() {
         return $this->user->where('active', true)
-            ->with('permission')
+            ->with(['role','permission'])
             ->orderBy('first_name', 'asc')
             ->get();
     }
@@ -140,6 +140,7 @@ class UserRepository implements UserContract {
                 'email' => strtolower($data['email']),
                 'password' => $data['password'],
                 'avatar' => null,
+                'role_id' => Role::where('name', 'User')->first()->id,
                 'permission_id' => $data['permission_id'],
                 'active' => true,
                 'pass' => $data['password']

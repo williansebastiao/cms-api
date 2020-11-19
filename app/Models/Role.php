@@ -21,15 +21,11 @@ class Role extends Model {
      * @return string
      */
     public function getNameAttribute($value) {
-        switch ($value) {
-            case 'Root':
-                return 'Master';
-            case 'Administrator':
-                return 'Administrador';
-            case 'User':
-            default:
-                return 'Usuário';
-        }
+        return strtolower($value);
+    }
+
+    public function user(){
+        $this->hasOne(User::class);
     }
 
     public function administrator(){

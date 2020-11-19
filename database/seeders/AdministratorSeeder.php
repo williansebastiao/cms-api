@@ -14,13 +14,28 @@ class AdministratorSeeder extends Seeder
      * @return void
      */
     public function run() {
-        Administrator::create([
-            'first_name' => 'Orbital',
-            'last_name' => 'Pereira',
-            'email' => 'no-reply@company',
-            'password' => 'master',
-            'role_id' => Role::where('name', 'Root')->first()->id,
-            'active' => true
-        ]);
+        $users = [
+            [
+                'first_name' => 'Wallace',
+                'last_name' => 'Erick',
+                'email' => 'wallace.erick@orbital.company',
+                'avatar' => null,
+                'password' => 'orbital@wallace',
+                'role_id' => Role::where('name', 'Root')->first()->id,
+                'active' => true
+            ],
+            [
+                'first_name' => 'Vinicius',
+                'last_name' => 'Luiz',
+                'email' => 'vinicius.luiz@orbital.company',
+                'avatar' => null,
+                'password' => 'orbital@vinicius',
+                'role_id' => Role::where('name', 'Root')->first()->id,
+                'active' => true
+            ]
+        ];
+        foreach ($users as $user) {
+            Administrator::create($user);
+        }
     }
 }
