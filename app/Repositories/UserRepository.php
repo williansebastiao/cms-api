@@ -219,12 +219,12 @@ class UserRepository implements UserContract {
 
     /**
      * @param array $data
-     * @param Int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function personal(Array $data, String $id) {
+    public function personal(Array $data) {
         try {
 
+            $id = auth()->user()->id;
             $arr = [
                 'site' => $data['site'],
                 'phone' => $data['phone'],
@@ -262,6 +262,8 @@ class UserRepository implements UserContract {
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
                 'email' => $data['email'],
+                'phone' => $data['phone'],
+                'site' => $data['site'],
             ];
 
             $save = $this->user->find($id)->update($arr);

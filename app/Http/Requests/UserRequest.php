@@ -43,6 +43,15 @@ class UserRequest extends FormRequest {
                 'email' => 'email',
                 //'email' => 'email', Rule::unique('users')->ignore($user->id),
             ];
+        } else if (in_array('profile', $segments)) {
+            $user = auth()->user();
+            return [
+                'first_name' => 'required|min:2',
+                'last_name' => 'required|min:2',
+                'email' => 'email', Rule::unique('users')->ignore($user->id),
+                'phone' => ['required', new Cellphone()],
+                'site' => 'required|url'
+            ];
         } else if(in_array('personal', $segments)) {
             return [
                 'site' => 'required|url',

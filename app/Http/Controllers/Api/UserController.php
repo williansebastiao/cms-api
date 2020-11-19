@@ -158,12 +158,11 @@ class UserController extends Controller {
 
     /**
      * @param UserRequest $request
-     * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function personal(UserRequest $request, $id) {
+    public function personal(UserRequest $request) {
         try {
-            return $this->user->personal($request->all(), $id);
+            return $this->user->personal($request->all());
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
         }
