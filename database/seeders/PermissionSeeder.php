@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Permission;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class PermissionSeeder extends Seeder {
     /**
@@ -26,7 +27,8 @@ class PermissionSeeder extends Seeder {
                             "create" => false,
                             "edit" => false,
                             "delete" => false
-                        ]
+                        ],
+                        "slug" => Str::slug('Dashboard')
                     ],
                     [
                         "name" => "Users",
@@ -35,7 +37,8 @@ class PermissionSeeder extends Seeder {
                             "create" => false,
                             "edit" => false,
                             "delete" => false
-                        ]
+                        ],
+                        "slug" => Str::slug('Users')
                     ],
                     [
                         "name" => "Roles",
@@ -44,7 +47,8 @@ class PermissionSeeder extends Seeder {
                             "create" => false,
                             "edit" => false,
                             "delete" => false
-                        ]
+                        ],
+                        "slug" => Str::slug('Roles')
                     ],
                     [
                         "name" => "Chat",
@@ -53,7 +57,8 @@ class PermissionSeeder extends Seeder {
                             "create" => false,
                             "edit" => false,
                             "delete" => false
-                        ]
+                        ],
+                        "slug" => Str::slug('Chat')
                     ]
                 ],
                 "active" => false,
@@ -71,7 +76,8 @@ class PermissionSeeder extends Seeder {
                             "create" => true,
                             "edit" => true,
                             "delete" => true
-                        ]
+                        ],
+                        "slug" => Str::slug('Dashboard')
                     ],
                     [
                         "name" => "Users",
@@ -80,7 +86,8 @@ class PermissionSeeder extends Seeder {
                             "create" => true,
                             "edit" => true,
                             "delete" => true
-                        ]
+                        ],
+                        "slug" => Str::slug('Users')
                     ],
                     [
                         "name" => "Roles",
@@ -89,7 +96,8 @@ class PermissionSeeder extends Seeder {
                             "create" => true,
                             "edit" => true,
                             "delete" => true
-                        ]
+                        ],
+                        "slug" => Str::slug('Roles')
                     ],
                     [
                         "name" => "Chat",
@@ -98,7 +106,8 @@ class PermissionSeeder extends Seeder {
                             "create" => true,
                             "edit" => true,
                             "delete" => true
-                        ]
+                        ],
+                        "slug" => Str::slug('Chat')
                     ]
                 ],
                 "active" => true,
