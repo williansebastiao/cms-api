@@ -22,5 +22,6 @@ class ApiMessages {
     const allFields = 'Preencha todos os dados';
     const zeroData = 'Nenhum registro encontrado';
     const seeYa = 'Até mais :)';
+    const errorPusher = 'Algo de errado não está certo!';
 
 }

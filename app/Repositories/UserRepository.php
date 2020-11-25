@@ -7,8 +7,10 @@ use App\Constants\ApiMessages;
 use App\Constants\ApiStatus;
 use App\Exports\UserExport;
 use App\Mail\NewUser;
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\Role;
+use App\Traits\NotificationTrait;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -20,7 +22,9 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserRepository implements UserContract {
 
-    protected $user;
+    use NotificationTrait;
+
+    protected $user, $notification;
 
     public function __construct(User $user) {
         $this->user = $user;
@@ -149,6 +153,7 @@ class UserRepository implements UserContract {
             $save = $this->user->create($arr);
             if($save) {
                 Mail::to(strtolower($data['email']))->send(new NewUser($arr));
+                $this->send(['title' => "${data['first_name']} foi adicionado", 'description' => "Your bones don't break, mine do", 'icon' => 'mdi mdi-account-multiple has-text-info']);
                 return response()->json(['message' => ApiMessages::success], ApiStatus::created);
             } else {
                 return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);

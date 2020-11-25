@@ -4,24 +4,45 @@ namespace App\Http\Controllers\Api;
 
 use App\Constants\ApiStatus;
 use App\Http\Controllers\Controller;
+use App\Repositories\NotificationContract as Notification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Pusher\Pusher;
+
 
 class NotificationController extends Controller {
 
+    /**
+     * @var Notification
+     */
+    protected $notification;
+
+    /**
+     * NotificationController constructor.
+     * @param Notification $notification
+     */
+    public function __construct(Notification $notification) {
+        $this->notification = $notification;
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function send(Request $request) {
+        try {
+            return $this->notification->send($request->all());
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
 
-        $pusher = new Pusher(
-            '53cbf8c7c95b4a051597',
-            '0d1255b35a7a85d4f33e',
-            '1106532',
-            ['cluster' => 'mt1', 'useTLS' => true]
-        );
-
-        $id = Str::random(16);
-        $data = ['_id' => $id, 'text' => $request->message];
-        $pusher->trigger('stup', 'notification', $data);
-        return response()->json(['message' => $request->message, '_id' => $id], ApiStatus::success);
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function findAll() {
+        try {
+            return $this->notification->findAll();
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
     }
 }

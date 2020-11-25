@@ -6,6 +6,8 @@ use App\Repositories\AdministratorContract;
 use App\Repositories\AdministratorRepository;
 use App\Repositories\ClientContract;
 use App\Repositories\ClientRepository;
+use App\Repositories\NotificationContract;
+use App\Repositories\NotificationRepository;
 use App\Repositories\PermissionContract;
 use App\Repositories\PermissionRepository;
 use App\Repositories\UserContract;
@@ -24,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ClientContract::class, ClientRepository::class);
         $this->app->bind(UserContract::class, UserRepository::class);
         $this->app->bind(PermissionContract::class, PermissionRepository::class);
+        $this->app->bind(NotificationContract::class, NotificationRepository::class);
     }
 
     /**
