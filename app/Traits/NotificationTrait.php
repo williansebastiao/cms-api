@@ -3,7 +3,6 @@
 
 namespace App\Traits;
 
-
 use App\Constants\ApiMessages;
 use App\Constants\ApiStatus;
 use App\Models\Notification;

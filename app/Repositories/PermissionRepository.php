@@ -8,12 +8,15 @@ use App\Constants\ApiMessages;
 use App\Constants\ApiStatus;
 use App\Exports\RoleExport;
 use App\Models\Permission;
+use App\Traits\NotificationTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
 class PermissionRepository implements PermissionContract {
+
+    use NotificationTrait;
 
     /**
      * @var Permission
@@ -72,6 +75,7 @@ class PermissionRepository implements PermissionContract {
         try {
             $save = $this->permission->create($data);
             if($save) {
+                $this->send(['title' => "${data['name']} foi adicionado a roles", 'description' => "Your bones don't break, mine do", 'icon' => 'mdi mdi-account-multiple has-text-info']);
                 return response()->json(['message' => ApiMessages::success], ApiStatus::created);
             } else {
                 return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);
