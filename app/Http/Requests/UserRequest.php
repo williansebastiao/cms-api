@@ -53,13 +53,20 @@ class UserRequest extends FormRequest {
                 'site' => 'required|url'
             ];
         } else if(in_array('personal', $segments)) {
+            $user = auth()->user();
             return [
-                'site' => 'required|url',
+                'first_name' => 'required|min:2',
+                'last_name' => 'required|min:2',
                 'phone' => ['required', new Cellphone()],
+                'email' => 'email', Rule::unique('users')->ignore($user->id),
+                'site' => 'required|url'
+            ];
+        } else if(in_array('address', $segments)) {
+            return [
                 'address.zipcode' => ['required', new Zipcode()],
                 'address.street' => 'required|min:4',
                 'address.number' => 'required|min:1|max:6',
-                'address.neighborhood' => 'required|min:2|max:10',
+                'address.neighborhood' => 'required|min:2|max:30',
                 'address.state' => 'required|min:2|max:2',
                 'address.city' => 'required|min:2|max:20',
             ];

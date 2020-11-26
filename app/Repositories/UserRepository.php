@@ -232,8 +232,34 @@ class UserRepository implements UserContract {
 
             $id = auth()->user()->id;
             $arr = [
-                'site' => $data['site'],
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
                 'phone' => $data['phone'],
+                'email' => strtolower($data['email']),
+                'site' => $data['site'],
+            ];
+
+            $save = $this->user->find($id)->update($arr);
+            if($save) {
+                return response()->json(['message' => ApiMessages::success], ApiStatus::success);
+            } else {
+                return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);
+            }
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function address(Array $data) {
+        try {
+
+            $id = auth()->user()->id;
+            $arr = [
                 'address' => [
                     'zipcode' => $data['address']['zipcode'],
                     'street' => $data['address']['street'],

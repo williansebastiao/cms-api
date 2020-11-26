@@ -172,6 +172,18 @@ class UserController extends Controller {
      * @param UserRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
+    public function address(UserRequest $request) {
+        try {
+            return $this->user->address($request->all());
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param UserRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function profile(UserRequest $request) {
         try {
             return $this->user->profile($request->all());
