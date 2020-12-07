@@ -43,7 +43,7 @@ return [
             'username' => env('DB_USERNAME', 'orbital'),
             'password' => env('DB_PASSWORD', 'ly8XEEZfXiqSwLF13lqLjywBXbRIFWzEgo7WBLIB!fnbTJ5sKSqkY1$O#$et'),
             'options'  => [
-                'database' => 'admin'
+                'database' => 'admin',
             ]
         ],
 

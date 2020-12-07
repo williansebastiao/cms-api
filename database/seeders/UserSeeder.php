@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -21,6 +22,7 @@ class UserSeeder extends Seeder {
                 'avatar' => null,
                 'password' => 'orbital@wallace',
                 'role_id' => Role::where('name', 'Root')->first()->id,
+                'permission_id' => Permission::where('name', 'Administrator')->first()->id,
                 'active' => true
             ],
             [
@@ -30,6 +32,7 @@ class UserSeeder extends Seeder {
                 'avatar' => null,
                 'password' => 'orbital@vinicius',
                 'role_id' => Role::where('name', 'Root')->first()->id,
+                'permission_id' => Permission::where('name', 'Administrator')->first()->id,
                 'active' => true
             ]
         ];

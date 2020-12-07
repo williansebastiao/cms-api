@@ -17,7 +17,7 @@ class PermissionSeeder extends Seeder {
         $permissions = [
             [
                 "name" => "User",
-                "description" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla rutrum",
+                "description" => "Only dashboard",
                 "color" => "rgb(114, 2, 248)",
                 "route" => [
                     [
