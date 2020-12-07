@@ -61,7 +61,7 @@ class PermissionSeeder extends Seeder {
                         "slug" => Str::slug('Chat')
                     ]
                 ],
-                "active" => false,
+                "active" => true,
                 "slug" => "user"
             ],
             [

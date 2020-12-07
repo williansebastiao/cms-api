@@ -8,6 +8,7 @@ use App\Constants\ApiStatus;
 use App\Exports\UserExport;
 use App\Mail\NewUser;
 use App\Models\Notification;
+use App\Models\Permission;
 use App\Models\User;
 use App\Models\Role;
 use App\Traits\NotificationTrait;
@@ -178,7 +179,8 @@ class UserRepository implements UserContract {
                 'password' => $data['password'],
                 'avatar' => null,
                 'active' => true,
-                'role_id' => Role::where('name', 'User')->first()->id
+                'role_id' => Role::where('name', 'User')->first()->id,
+                'permission_id' => Permission::where('name', 'User')->first()->id
             ];
 
             $save = $this->user->create($arr);
