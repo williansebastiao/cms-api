@@ -90,6 +90,7 @@ class UserRepository implements UserContract {
     public function findByName(String $name) {
         return $this->user->where('first_name', 'like', '%'.$name.'%')
             ->where('active', true)
+            ->with(['role','permission'])
             ->get();
     }
 
@@ -98,7 +99,8 @@ class UserRepository implements UserContract {
      * @return mixed
      */
     public function filterByOrder(String $name) {
-        $query = $this->user->where('active', true);
+        $query = $this->user->where('active', true)
+            ->with(['role','permission']);
         switch ($name) {
             case 1:
                 return $query->orderBy('first_name', 'asc')
@@ -116,9 +118,15 @@ class UserRepository implements UserContract {
     public function filterByStatus(String $name) {
         switch ($name) {
             case 1:
-                return $this->user->orderBy('first_name', 'asc')->where('active', true)->get();
+                return $this->user->orderBy('first_name', 'asc')
+                    ->where('active', true)
+                    ->with(['role','permission'])
+                    ->get();
             case 2:
-                return $this->user->orderBy('first_name', 'asc')->where('active', false)->get();
+                return $this->user->orderBy('first_name', 'asc')
+                    ->where('active', false)
+                    ->with(['role','permission'])
+                    ->get();
         }
     }
 
@@ -129,6 +137,7 @@ class UserRepository implements UserContract {
     public function filterByRole(String $name) {
         return $this->user->where('permission_id', $name)
             ->where('active', true)
+            ->with(['role','permission'])
             ->orderBy('first_name', 'asc')
             ->get();
     }
