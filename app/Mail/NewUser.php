@@ -12,9 +12,9 @@ class NewUser extends Mailable {
     use Queueable, SerializesModels;
 
     /**
-     * @var $client
+     * @var $user
      */
-    public $client;
+    public $user;
 
     /**
      * Create a new message instance.
@@ -22,7 +22,7 @@ class NewUser extends Mailable {
      * @return void
      */
     public function __construct($data) {
-        $this->client = $data;
+        $this->user = $data;
     }
 
     /**
