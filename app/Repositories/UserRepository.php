@@ -27,8 +27,9 @@ class UserRepository implements UserContract {
 
     protected $user, $notification;
 
-    public function __construct(User $user) {
+    public function __construct(User $user, Notification $notification) {
         $this->user = $user;
+        $this->notification = $notification;
     }
 
     /**
@@ -154,6 +155,29 @@ class UserRepository implements UserContract {
             $save = $this->user->create($arr);
             if($save) {
                 Mail::to(strtolower($data['email']))->send(new NewUser($arr));
+                $users = $this->user->where('active', true)->get();
+                foreach ($users as $user) {
+                    if($user->notification) {
+                        $aux = $user->notification['counter'];
+                        $notification = [
+                            'notification' => [
+                                'counter' => ++$aux,
+                                'read' => false
+                            ]
+                        ];
+                        $this->user->find($user->_id)->update($notification);
+                    } else {
+                        $aux = 0;
+                        $notification = [
+                            'notification' => [
+                                'counter' => ++$aux,
+                                'read' => false
+                            ]
+                        ];
+                        $this->user->find($user->_id)->update($notification);
+                    }
+                }
+
                 $this->send(['title' => "${data['first_name']} foi adicionado", 'description' => "Your bones don't break, mine do", 'icon' => 'mdi mdi-account-multiple has-text-info']);
                 return response()->json(['message' => ApiMessages::success], ApiStatus::created);
             } else {

@@ -22,7 +22,7 @@ class User extends Authenticatable implements JWTSubject, PasswordContract {
      */
     protected $fillable = [
         'first_name', 'last_name', 'email', 'site',
-        'phone', 'address', 'password', 'slug',
+        'phone', 'address', 'notification', 'password', 'slug',
         'avatar', 'role_id', 'permission_id', 'active'
     ];
 

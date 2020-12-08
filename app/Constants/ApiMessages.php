@@ -23,5 +23,7 @@ class ApiMessages {
     const zeroData = 'Nenhum registro encontrado';
     const seeYa = 'Até mais :)';
     const errorPusher = 'Algo de errado não está certo!';
+    const clearNotification = 'Notificação limpa... :)';
+    const clearNotificationError = 'Algo de errado não está certo!';
 
 }

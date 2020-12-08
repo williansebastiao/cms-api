@@ -45,4 +45,15 @@ class NotificationController extends Controller {
             return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
         }
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function clearNotifications() {
+        try {
+            return $this->notification->clearNotifications();
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
 }

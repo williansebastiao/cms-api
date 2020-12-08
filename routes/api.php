@@ -87,5 +87,6 @@ Route::group(['middleware' => ['jwt.verify']], function (){
     Route::group(['prefix' => 'notification'], function (){
         Route::post('send', [\App\Http\Controllers\Api\NotificationController::class, 'send']);
         Route::get('findAll', [\App\Http\Controllers\Api\NotificationController::class, 'findAll']);
+        Route::put('clearNotifications', [\App\Http\Controllers\Api\NotificationController::class, 'clearNotifications']);
     });
 });
