@@ -3,11 +3,11 @@
 
 namespace App\Repositories;
 
-
 use App\Constants\ApiMessages;
 use App\Constants\ApiStatus;
 use App\Exports\RoleExport;
 use App\Models\Permission;
+use App\Models\User;
 use App\Traits\NotificationTrait;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -20,15 +20,18 @@ class PermissionRepository implements PermissionContract {
 
     /**
      * @var Permission
+     * @var User
      */
-    protected $permission;
+    protected $permission, $user;
 
     /**
      * PermissionRepository constructor.
      * @param Permission $permission
+     * @param User $user
      */
-    public function __construct(Permission $permission) {
+    public function __construct(Permission $permission, User $user) {
         $this->permission = $permission;
+        $this->user = $user;
     }
 
     /**
@@ -75,6 +78,28 @@ class PermissionRepository implements PermissionContract {
         try {
             $save = $this->permission->create($data);
             if($save) {
+                $users = $this->user->where('active', true)->get();
+                foreach ($users as $user) {
+                    if($user->notification) {
+                        $aux = $user->notification['counter'];
+                        $notification = [
+                            'notification' => [
+                                'counter' => ++$aux,
+                                'read' => false
+                            ]
+                        ];
+                        $this->user->find($user->_id)->update($notification);
+                    } else {
+                        $aux = 0;
+                        $notification = [
+                            'notification' => [
+                                'counter' => ++$aux,
+                                'read' => false
+                            ]
+                        ];
+                        $this->user->find($user->_id)->update($notification);
+                    }
+                }
                 $this->send(['title' => "${data['name']} foi adicionado a roles", 'description' => "Your bones don't break, mine do", 'icon' => 'mdi mdi-account-multiple has-text-info']);
                 return response()->json(['message' => ApiMessages::success], ApiStatus::created);
             } else {
