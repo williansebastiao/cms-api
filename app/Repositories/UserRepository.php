@@ -69,7 +69,7 @@ class UserRepository implements UserContract {
      * @return mixed
      */
     public function findAll() {
-        return $this->user->where('active', true)
+        return $this->user->withTrashed()
             ->with(['role','permission'])
             ->orderBy('first_name', 'asc')
             ->get();
@@ -89,7 +89,7 @@ class UserRepository implements UserContract {
      */
     public function findByName(String $name) {
         return $this->user->where('first_name', 'like', '%'.$name.'%')
-            ->where('active', true)
+            ->withTrashed()
             ->with(['role','permission'])
             ->get();
     }
@@ -99,7 +99,7 @@ class UserRepository implements UserContract {
      * @return mixed
      */
     public function filterByOrder(String $name) {
-        $query = $this->user->where('active', true)
+        $query = $this->user->withTrashed()
             ->with(['role','permission']);
         switch ($name) {
             case 1:
@@ -136,7 +136,7 @@ class UserRepository implements UserContract {
      */
     public function filterByRole(String $name) {
         return $this->user->where('permission_id', $name)
-            ->where('active', true)
+            ->withTrashed()
             ->with(['role','permission'])
             ->orderBy('first_name', 'asc')
             ->get();
