@@ -420,6 +420,25 @@ class UserRepository implements UserContract {
     }
 
     /**
+     * @param String $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function restore(String $id) {
+        try {
+            $restore = $this->user->withTrashed()->find($id)->restore();
+            if($restore) {
+                $this->user->find($id)->update(['active' => true]);
+                return response()->json(['message' => ApiMessages::success], ApiStatus::success);
+            } else {
+                return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);
+            }
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function export() {
