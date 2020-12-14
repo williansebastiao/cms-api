@@ -50,7 +50,7 @@ class UserRequest extends FormRequest {
                 'last_name' => 'required|min:2',
                 'email' => 'email', Rule::unique('users')->ignore($user->id),
                 'phone' => ['required', new Cellphone()],
-                'site' => 'url'
+                'site' => 'nullable|url'
             ];
         } else if(in_array('personal', $segments)) {
             $user = auth()->user();
@@ -59,7 +59,7 @@ class UserRequest extends FormRequest {
                 'last_name' => 'required|min:2',
                 'phone' => ['required', new Cellphone()],
                 'email' => 'email', Rule::unique('users')->ignore($user->id),
-                'site' => 'url'
+                'site' => 'nullable|url'
             ];
         } else if(in_array('address', $segments)) {
             return [
