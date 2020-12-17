@@ -246,6 +246,7 @@ class UserRepository implements UserContract {
                 'slug' => Str::slug($data['first_name'] . ' ' . $data['last_name'])
             ];
 
+            $this->permission($id);
             $save = $this->user->find($id)->update($arr);
             if($save) {
                 return response()->json(['message' => ApiMessages::success], ApiStatus::success);

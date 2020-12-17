@@ -47,5 +47,25 @@ trait NotificationTrait {
             return response()->json(['message' => ApiMessages::token], ApiStatus::internalServerError);
         }
     }
+    public function permission(String $id) {
+        try {
+            $pusher = new Pusher(
+                '53cbf8c7c95b4a051597',
+                '0d1255b35a7a85d4f33e',
+                '1106532',
+                ['cluster' => 'mt1', 'useTLS' => true]
+            );
+
+            $obj = [
+                'id' => $id,
+                'message' => 'Permissão alterada com sucesso',
+            ];
+            $pusher->trigger('permission', "user_${id}", $obj);
+
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return response()->json(['message' => ApiMessages::token], ApiStatus::internalServerError);
+        }
+    }
 
 }
