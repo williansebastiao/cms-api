@@ -272,7 +272,7 @@ class UserRepository implements UserContract {
                 'last_name' => $data['last_name'],
                 'phone' => $data['phone'],
                 'email' => strtolower($data['email']),
-                'site' => $data['site'],
+                'site' => isset($data['site']) ? $data['site'] : null,
             ];
 
             $save = $this->user->find($id)->update($arr);
