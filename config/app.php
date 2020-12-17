@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://stup.station.orbital.company'),
+    'url' => env('APP_URL', 'http://stup.station.orbital.company'),
 
     'asset_url' => env('ASSET_URL', null),
 
