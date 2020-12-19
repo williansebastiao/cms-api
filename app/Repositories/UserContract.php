@@ -18,6 +18,7 @@ interface UserContract {
     public function register(Array $data);
     public function update(Array $data, String $id);
     public function profile(Array $data);
+    public function avatar(Array $data);
     public function personal(Array $data);
     public function address(Array $data);
     public function password(Array $data);

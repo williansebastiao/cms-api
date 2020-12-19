@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\Image;
+use Intervention\Image\Facades\Image;
 use Maatwebsite\Excel\Facades\Excel;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -351,14 +351,14 @@ class UserRepository implements UserContract {
      * @param $avatar
      * @return \Illuminate\Http\JsonResponse
      */
-    public function avatar($data=[], $avatar) {
+    public function avatar(Array $data) {
         try {
             $id = auth()->user()->id;
-            $path = $avatar->store('avatar/' . $id);
+            $path = $data['avatar']->store('avatar/' . $id);
             $img = Image::make(storage_path('app/public') . '/' . $path);
             $img->crop($data['width'], $data['height'], $data['x'], $data['y']);
             $img->save(storage_path('app/public') . '/' . $path);
-            $source = storage_path('app/public') . '/' . $path;
+            //$source = storage_path('app/public') . '/' . $path;
 
             $save = $this->user->find($id)->update(['avatar' => $path]);
             if($save) {

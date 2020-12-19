@@ -198,7 +198,7 @@ class UserController extends Controller {
      */
     public function avatar(Request $request) {
         try {
-            return $this->user->avatar($request->all(), $request->avatar);
+            return $this->user->avatar($request->all());
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
         }
