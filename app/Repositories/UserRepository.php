@@ -124,7 +124,7 @@ class UserRepository implements UserContract {
                     ->get();
             case 2:
                 return $this->user->orderBy('first_name', 'asc')
-                    ->where('active', false)
+                    ->onlyTrashed()
                     ->with(['role','permission'])
                     ->get();
         }
