@@ -193,10 +193,10 @@ class UserController extends Controller {
     }
 
     /**
-     * @param Request $request
+     * @param UserRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function avatar(Request $request) {
+    public function avatar(UserRequest $request) {
         try {
             return $this->user->avatar($request->all());
         } catch (\Exception $e) {

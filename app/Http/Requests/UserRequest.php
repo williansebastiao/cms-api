@@ -76,6 +76,10 @@ class UserRequest extends FormRequest {
                 'password' => 'required|min:8',
                 'confirm_password' => 'required|min:8|same:password',
             ];
+        } else if(in_array('avatar', $segments)) {
+            return [
+                'avatar' => 'required|file'
+            ];
         } else {
             return [
                 'first_name' => 'required|min:2',
