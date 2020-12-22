@@ -25,5 +25,7 @@ class ApiMessages {
     const errorPusher = 'Algo de errado não está certo!';
     const clearNotification = 'Notificação limpa... :)';
     const clearNotificationError = 'Algo de errado não está certo!';
+    const disabledUser = 'Usuário desabilitado!';
+    const deletedUser = 'Usuário deletado da base de dados!';
 
 }

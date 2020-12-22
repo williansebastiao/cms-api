@@ -38,7 +38,12 @@ class UserRepository implements UserContract {
      */
     public function authenticate(Array $data) {
         try {
-            if (!$token = auth()->attempt($data)) {
+            $query = $this->user->where('email', $data['email'])->withTrashed()->first();
+            if(!$query->active && !isset($query->deleted_at)) {
+                return response()->json(['message' => ApiMessages::disabledUser], ApiStatus::unprocessableEntity);
+            } else if(isset($query->deleted_at) && !is_null($query->deleted_at)) {
+                return response()->json(['message' => ApiMessages::deletedUser], ApiStatus::unprocessableEntity);
+            } else if(!$token = auth()->attempt($data)) {
                 return response()->json(['message' => ApiMessages::credential], ApiStatus::unprocessableEntity);
             } else {
                 $user = auth()->user();
@@ -69,8 +74,7 @@ class UserRepository implements UserContract {
      * @return mixed
      */
     public function findAll() {
-        return $this->user->withTrashed()
-            ->with(['role','permission'])
+        return $this->user->with(['role','permission'])
             ->orderBy('first_name', 'asc')
             ->get();
     }
