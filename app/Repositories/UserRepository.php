@@ -128,7 +128,7 @@ class UserRepository implements UserContract {
                     ->get();
             case 2:
                 return $this->user->orderBy('first_name', 'asc')
-                    ->onlyTrashed()
+                    ->where('active', false)
                     ->with(['role','permission'])
                     ->get();
         }
@@ -410,6 +410,24 @@ class UserRepository implements UserContract {
      * @param String $id
      * @return \Illuminate\Http\JsonResponse
      */
+    public function disable(String $id) {
+        try {
+            $delete = $this->user->find($id)->update(['active' => false]);
+            if($delete) {
+                return response()->json(['message' => ApiMessages::disabledUser], ApiStatus::success);
+            } else {
+                return response()->json(['message' => ApiMessages::deleteError], ApiStatus::unprocessableEntity);
+            }
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return response()->json(['message' => $e->getMessage()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param String $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(String $id) {
         try {
             $delete = $this->user->find($id)->delete();
@@ -430,9 +448,8 @@ class UserRepository implements UserContract {
      */
     public function restore(String $id) {
         try {
-            $restore = $this->user->withTrashed()->find($id)->restore();
+            $restore = $this->user->find($id)->update(['active' => true]);
             if($restore) {
-                $this->user->find($id)->update(['active' => true]);
                 return response()->json(['message' => ApiMessages::success], ApiStatus::success);
             } else {
                 return response()->json(['message' => ApiMessages::error], ApiStatus::unprocessableEntity);

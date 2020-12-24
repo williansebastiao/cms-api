@@ -22,6 +22,7 @@ interface UserContract {
     public function personal(Array $data);
     public function address(Array $data);
     public function password(Array $data);
+    public function disable(String $id);
     public function destroy(String $id);
     public function restore(String $id);
     public function export();

@@ -220,6 +220,18 @@ class UserController extends Controller {
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      */
+    public function disable($id) {
+        try {
+            return $this->user->disable($id);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], ApiStatus::internalServerError);
+        }
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id) {
         try {
             return $this->user->destroy($id);

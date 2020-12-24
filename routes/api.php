@@ -72,6 +72,7 @@ Route::group(['middleware' => ['jwt.verify']], function (){
         Route::put('personal', [\App\Http\Controllers\Api\UserController::class, 'personal']);
         Route::put('address', [\App\Http\Controllers\Api\UserController::class, 'address']);
         Route::put('password', [\App\Http\Controllers\Api\UserController::class, 'password']);
+        Route::put('disable/{id}', [\App\Http\Controllers\Api\UserController::class, 'disable']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\Api\UserController::class, 'destroy']);
         Route::put('restore/{id}', [\App\Http\Controllers\Api\UserController::class, 'restore']);
         Route::post('logout', [\App\Http\Controllers\Api\UserController::class, 'logout']);
