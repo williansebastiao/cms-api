@@ -16,20 +16,20 @@ class AdministratorSeeder extends Seeder
     public function run() {
         $users = [
             [
-                'first_name' => 'Wallace',
-                'last_name' => 'Erick',
-                'email' => 'wallace.erick@orbital.company',
+                'first_name' => 'Márcia',
+                'last_name' => 'Pereirs',
+                'email' => 'marcia@4vconnect.com',
                 'avatar' => null,
-                'password' => 'orbital@wallace',
+                'password' => '12345678',
                 'role_id' => Role::where('name', 'Root')->first()->id,
                 'active' => true
             ],
             [
-                'first_name' => 'Vinicius',
-                'last_name' => 'Luiz',
-                'email' => 'vinicius.luiz@orbital.company',
+                'first_name' => 'Patrícia',
+                'last_name' => 'Pereira',
+                'email' => 'patricia@4vconnect.com',
                 'avatar' => null,
-                'password' => 'orbital@vinicius',
+                'password' => '12345678',
                 'role_id' => Role::where('name', 'Root')->first()->id,
                 'active' => true
             ]
