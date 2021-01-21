@@ -47,7 +47,7 @@ class UserResetPasswordNotification extends Notification {
 
         return (new MailMessage)->view(
             'emails.user.reset', ['url' => $url, 'name' => $name, 'initials' => $initials]
-        )->subject('Stup  -  Esqueci minha senha');
+        )->subject('CMS  -  Esqueci minha senha');
     }
 
     /**

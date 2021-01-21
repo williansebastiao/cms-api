@@ -134,7 +134,7 @@
                                     <a href="#" style="text-decoration: none; display: block; margin: 0 auto;">
                                         <img width="100"
                                              style="max-width: 100px; width: 100%; display: block; line-height: 0px; font-size: 0px; border: 0px; border-radius: 4px;"
-                                             src="https://stup-api.station.orbital.company/assets/mail/images/logo.png">
+                                             src="https://cms.api.4vconnect.com.br/assets/mail/images/logo.png">
                                     </a>
                                 </td>
                             </tr>
@@ -155,7 +155,7 @@
         <td>
             <table bgcolor="#1e1e41" align="center" width="750" class="margin-full"
                    style="background-size:cover; background-position:center;" border="0" cellpadding="0"
-                   cellspacing="0" background="https://stup-api.station.orbital.company/assets/mail/images/login.jpg">
+                   cellspacing="0" background="https://cms.api.4vconnect.com.br/assets/mail/images/login.jpg">
                 <tr>
                     <td>
                         <table width="600" align="center" class="margin-pad" border="0" cellpadding="0"
@@ -278,7 +278,7 @@
                                                                         <a href="#" style="text-decoration: none;">
                                                                             <img width="18"
                                                                                  style="max-width: 18px; width: 100%; display: block; line-height: 0px; font-size: 0px; border: 0px;"
-                                                                                 src="https://stup-api.station.orbital.company/assets/mail/images/facebook.png">
+                                                                                 src="https://cms.api.4vconnect.com.br/assets/mail/images/facebook.png">
                                                                         </a>
                                                                     </td>
                                                                 </tr>
@@ -294,7 +294,7 @@
                                                                         <a href="#" style="text-decoration: none;">
                                                                             <img width="18"
                                                                                  style="max-width: 18px; width: 100%; display: block; line-height: 0px; font-size: 0px; border: 0px;"
-                                                                                 src="https://stup-api.station.orbital.company/assets/mail/images/linkedin.png">
+                                                                                 src="https://cms.api.4vconnect.com.br/assets/mail/images/linkedin.png">
                                                                         </a>
                                                                     </td>
                                                                 </tr>

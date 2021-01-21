@@ -31,7 +31,7 @@ class NewAdministrator extends Mailable
      */
     public function build()
     {
-        return $this->subject('STUP - Dados de acesso')
+        return $this->subject('CMS - Dados de acesso')
             ->markdown('emails.administrator.new');
 
     }

@@ -31,7 +31,7 @@ class NewClient extends Mailable {
      * @return $this
      */
     public function build() {
-        return $this->subject('STUP - Dados de acesso')
+        return $this->subject('CMS - Dados de acesso')
             ->markdown('emails.client.new');
     }
 }
